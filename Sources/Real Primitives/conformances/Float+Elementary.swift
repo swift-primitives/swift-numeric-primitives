@@ -10,6 +10,8 @@
 //
 // ===----------------------------------------------------------------------===//
 
+import _Shims
+
 extension Float: Numeric.Elementary {
     // MARK: - Protocol Requirements
 
@@ -23,6 +25,7 @@ extension Float: Numeric.Elementary {
     @inlinable public static func _pow(_ x: Float, _ y: Float) -> Float { Numeric.Math.pow(x, y) }
     @inlinable public static func _sqrt(_ x: Float) -> Float { Numeric.Math.sqrt(x) }
     @inlinable public static func _cbrt(_ x: Float) -> Float { Numeric.Math.cbrt(x) }
+    @inlinable public static func _root(_ x: Float, _ n: Int) -> Float { Numeric.Math.root(x, n) }
     @inlinable public static func _hypot(_ x: Float, _ y: Float) -> Float { Numeric.Math.hypot(x, y) }
     @inlinable public static func _sin(_ x: Float) -> Float { Numeric.Math.sin(x) }
     @inlinable public static func _cos(_ x: Float) -> Float { Numeric.Math.cos(x) }
@@ -40,6 +43,20 @@ extension Float: Numeric.Elementary {
     @inlinable public static func _erf(_ x: Float) -> Float { Numeric.Math.erf(x) }
     @inlinable public static func _erfc(_ x: Float) -> Float { Numeric.Math.erfc(x) }
     @inlinable public static func _tgamma(_ x: Float) -> Float { Numeric.Math.tgamma(x) }
+
+    #if !os(Windows)
+    @inlinable public static func _logGamma(_ x: Float) -> Float { Numeric.Math.lgamma(x) }
+    #endif
+
+    // MARK: - Relaxed Arithmetic
+
+    public static func _relaxedAdd(_ a: Float, _ b: Float) -> Float {
+        shim_relaxed_addf(a, b)
+    }
+
+    public static func _relaxedMul(_ a: Float, _ b: Float) -> Float {
+        shim_relaxed_mulf(a, b)
+    }
 }
 
 // MARK: - Exponential Functions
@@ -92,6 +109,13 @@ extension Numeric.Math.Accessor where T == Float {
     /// Cube root
     @inlinable
     public func cbrt(_ x: Float) -> Float { Numeric.Math.cbrt(x) }
+
+    /// The nth root of x.
+    ///
+    /// For negative x with odd n, returns the real nth root.
+    /// For negative x with even n, returns NaN.
+    @inlinable
+    public func root(_ x: Float, _ n: Int) -> Float { Numeric.Math.root(x, n) }
 
     /// Hypotenuse: sqrt(x*x + y*y) without overflow
     @inlinable
@@ -190,4 +214,20 @@ extension Numeric.Math.Accessor where T == Float {
     /// Gamma function
     @inlinable
     public func tgamma(_ x: Float) -> Float { Numeric.Math.tgamma(x) }
+
+    #if !os(Windows)
+    /// Logarithm of the absolute value of gamma function.
+    ///
+    /// Use together with `signGamma` to recover the sign.
+    @inlinable
+    public func logGamma(_ x: Float) -> Float { Numeric.Math.lgamma(x) }
+
+    /// Sign of gamma function.
+    ///
+    /// - For x >= 0, returns `.plus`
+    /// - For negative integers (poles), returns `.plus`
+    /// - Otherwise alternates based on integral part
+    @inlinable
+    public func signGamma(_ x: Float) -> FloatingPointSign { Float._signGamma(x) }
+    #endif
 }

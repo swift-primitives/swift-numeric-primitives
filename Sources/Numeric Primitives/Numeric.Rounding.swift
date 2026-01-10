@@ -90,6 +90,10 @@ extension Numeric.Rounding {
     @inlinable
     public static var zero: Self { .direction(.zero) }
 
+    /// Round away from zero.
+    @inlinable
+    public static var away: Self { .direction(.away) }
+
     /// Ties round to even (banker's rounding).
     @inlinable
     public static var even: Self { .nearest(.even) }

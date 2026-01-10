@@ -91,6 +91,16 @@ extension Numeric.Math {
     internal static func cbrt(_ x: Float) -> Float { shim_cbrtf(x) }
 
     @usableFromInline
+    internal static func root(_ x: Float, _ n: Int) -> Float {
+        // Negative x with even n has no real root
+        guard x >= 0 || n % 2 != 0 else { return .nan }
+        // Use cbrt for n == 3 for better accuracy
+        if n == 3 { return shim_cbrtf(x) }
+        // General case: sign(x) * |x|^(1/n)
+        return Float(signOf: x, magnitudeOf: shim_powf(x.magnitude, 1 / Float(n)))
+    }
+
+    @usableFromInline
     internal static func hypot(_ x: Float, _ y: Float) -> Float { shim_hypotf(x, y) }
 
     @usableFromInline
@@ -104,6 +114,11 @@ extension Numeric.Math {
 
     @usableFromInline
     internal static func tgamma(_ x: Float) -> Float { shim_tgammaf(x) }
+
+    #if !os(Windows)
+    @usableFromInline
+    internal static func lgamma(_ x: Float) -> Float { shim_lgammaf(x) }
+    #endif
 }
 
 // MARK: - Double
@@ -176,6 +191,16 @@ extension Numeric.Math {
     internal static func cbrt(_ x: Double) -> Double { shim_cbrt(x) }
 
     @usableFromInline
+    internal static func root(_ x: Double, _ n: Int) -> Double {
+        // Negative x with even n has no real root
+        guard x >= 0 || n % 2 != 0 else { return .nan }
+        // Use cbrt for n == 3 for better accuracy
+        if n == 3 { return shim_cbrt(x) }
+        // General case: sign(x) * |x|^(1/n)
+        return Double(signOf: x, magnitudeOf: shim_pow(x.magnitude, 1 / Double(n)))
+    }
+
+    @usableFromInline
     internal static func hypot(_ x: Double, _ y: Double) -> Double { shim_hypot(x, y) }
 
     @usableFromInline
@@ -189,4 +214,9 @@ extension Numeric.Math {
 
     @usableFromInline
     internal static func tgamma(_ x: Double) -> Double { shim_tgamma(x) }
+
+    #if !os(Windows)
+    @usableFromInline
+    internal static func lgamma(_ x: Double) -> Double { shim_lgamma(x) }
+    #endif
 }

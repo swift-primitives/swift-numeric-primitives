@@ -138,6 +138,15 @@ SHIM_INLINE float shim_tgammaf(float x) {
     return __builtin_tgammaf(x);
 }
 
+#if !defined(_WIN32)
+/// Log of absolute value of gamma function (not available on Windows).
+SHIM_INLINE float shim_lgammaf(float x) {
+    extern float lgammaf_r(float, int *);
+    int dontCare;
+    return lgammaf_r(x, &dontCare);
+}
+#endif
+
 // ===----------------------------------------------------------------------===//
 // MARK: - Double shims
 // ===----------------------------------------------------------------------===//
@@ -249,6 +258,15 @@ SHIM_INLINE double shim_erfc(double x) {
 SHIM_INLINE double shim_tgamma(double x) {
     return __builtin_tgamma(x);
 }
+
+#if !defined(_WIN32)
+/// Log of absolute value of gamma function (not available on Windows).
+SHIM_INLINE double shim_lgamma(double x) {
+    extern double lgamma_r(double, int *);
+    int dontCare;
+    return lgamma_r(x, &dontCare);
+}
+#endif
 
 // ===----------------------------------------------------------------------===//
 // MARK: - Float80 shims (x86 only, non-Windows)
@@ -365,6 +383,54 @@ SHIM_INLINE long double shim_tgammal(long double x) {
 }
 
 #endif // Float80
+
+// ===----------------------------------------------------------------------===//
+// MARK: - Relaxed arithmetic (allows reassociation and FMA formation)
+// ===----------------------------------------------------------------------===//
+
+#define SHIM_RELAX_FP _Pragma("clang fp reassociate(on) contract(fast)")
+
+/// Float addition with reassociation and FMA formation permitted.
+SHIM_INLINE float shim_relaxed_addf(float a, float b) {
+    SHIM_RELAX_FP
+    return a + b;
+}
+
+/// Float multiplication with reassociation and FMA formation permitted.
+SHIM_INLINE float shim_relaxed_mulf(float a, float b) {
+    SHIM_RELAX_FP
+    return a * b;
+}
+
+/// Double addition with reassociation and FMA formation permitted.
+SHIM_INLINE double shim_relaxed_add(double a, double b) {
+    SHIM_RELAX_FP
+    return a + b;
+}
+
+/// Double multiplication with reassociation and FMA formation permitted.
+SHIM_INLINE double shim_relaxed_mul(double a, double b) {
+    SHIM_RELAX_FP
+    return a * b;
+}
+
+#if !defined(_WIN32) && (defined(__i386__) || defined(__x86_64__))
+
+/// Float80 addition with reassociation and FMA formation permitted.
+SHIM_INLINE long double shim_relaxed_addl(long double a, long double b) {
+    SHIM_RELAX_FP
+    return a + b;
+}
+
+/// Float80 multiplication with reassociation and FMA formation permitted.
+SHIM_INLINE long double shim_relaxed_mull(long double a, long double b) {
+    SHIM_RELAX_FP
+    return a * b;
+}
+
+#endif // Float80 relaxed
+
+#undef SHIM_RELAX_FP
 
 #undef SHIM_INLINE
 
