@@ -115,7 +115,7 @@ extension Numeric.Math {
     @usableFromInline
     internal static func tgamma(_ x: Float) -> Float { shim_tgammaf(x) }
 
-    #if !os(Windows)
+    #if canImport(Darwin) || canImport(Glibc) || canImport(Musl)
     @usableFromInline
     internal static func lgamma(_ x: Float) -> Float { shim_lgammaf(x) }
     #endif
@@ -215,7 +215,7 @@ extension Numeric.Math {
     @usableFromInline
     internal static func tgamma(_ x: Double) -> Double { shim_tgamma(x) }
 
-    #if !os(Windows)
+    #if canImport(Darwin) || canImport(Glibc) || canImport(Musl)
     @usableFromInline
     internal static func lgamma(_ x: Double) -> Double { shim_lgamma(x) }
     #endif

@@ -203,7 +203,7 @@ struct ElementaryTests {
 
     // MARK: - Gamma Functions
 
-    #if !os(Windows)
+    #if canImport(Darwin) || canImport(Glibc) || canImport(Musl)
     @Test
     func logGammaPositive() {
         // logGamma(1) = log(0!) = log(1) = 0

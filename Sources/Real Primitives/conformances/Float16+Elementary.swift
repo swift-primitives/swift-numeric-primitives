@@ -10,10 +10,9 @@
 //
 // ===----------------------------------------------------------------------===//
 
-// Float16 is only available on arm64 macOS, not on x86_64.
-#if !((os(macOS) || targetEnvironment(macCatalyst)) && arch(x86_64))
+// Float16 is available on arm64 Apple platforms, iOS, tvOS, watchOS, and visionOS.
+#if os(iOS) || os(tvOS) || os(watchOS) || os(visionOS) || ((os(macOS) || targetEnvironment(macCatalyst)) && arch(arm64))
 
-@available(macOS 11.0, iOS 14.0, tvOS 14.0, watchOS 7.0, *)
 extension Float16: Numeric.Elementary {
     // MARK: - Protocol Requirements
     // All operations delegate to Float and convert back.
@@ -53,7 +52,7 @@ extension Float16: Numeric.Elementary {
     @inlinable public static func _erfc(_ x: Float16) -> Float16 { Float16(Float._erfc(Float(x))) }
     @inlinable public static func _tgamma(_ x: Float16) -> Float16 { Float16(Float._tgamma(Float(x))) }
 
-    #if !os(Windows)
+    #if canImport(Darwin) || canImport(Glibc) || canImport(Musl)
     @inlinable public static func _logGamma(_ x: Float16) -> Float16 { Float16(Float._logGamma(Float(x))) }
     #endif
 
@@ -64,7 +63,6 @@ extension Float16: Numeric.Elementary {
 
 // MARK: - Exponential Functions
 
-@available(macOS 11.0, iOS 14.0, tvOS 14.0, watchOS 7.0, *)
 extension Numeric.Math.Accessor where T == Float16 {
     /// e^x
     @inlinable
@@ -81,7 +79,6 @@ extension Numeric.Math.Accessor where T == Float16 {
 
 // MARK: - Logarithmic Functions
 
-@available(macOS 11.0, iOS 14.0, tvOS 14.0, watchOS 7.0, *)
 extension Numeric.Math.Accessor where T == Float16 {
     /// Natural logarithm
     @inlinable
@@ -102,7 +99,6 @@ extension Numeric.Math.Accessor where T == Float16 {
 
 // MARK: - Power Functions
 
-@available(macOS 11.0, iOS 14.0, tvOS 14.0, watchOS 7.0, *)
 extension Numeric.Math.Accessor where T == Float16 {
     /// x^y
     @inlinable
@@ -127,7 +123,6 @@ extension Numeric.Math.Accessor where T == Float16 {
 
 // MARK: - Trigonometric Functions
 
-@available(macOS 11.0, iOS 14.0, tvOS 14.0, watchOS 7.0, *)
 extension Numeric.Math.Accessor where T == Float16 {
     /// Sine
     @inlinable
@@ -152,7 +147,6 @@ extension Numeric.Math.Accessor where T == Float16 {
 
 // MARK: - Inverse Trigonometric Functions
 
-@available(macOS 11.0, iOS 14.0, tvOS 14.0, watchOS 7.0, *)
 extension Numeric.Math.Accessor where T == Float16 {
     /// Arc sine
     @inlinable
@@ -173,7 +167,6 @@ extension Numeric.Math.Accessor where T == Float16 {
 
 // MARK: - Hyperbolic Functions
 
-@available(macOS 11.0, iOS 14.0, tvOS 14.0, watchOS 7.0, *)
 extension Numeric.Math.Accessor where T == Float16 {
     /// Hyperbolic sine
     @inlinable
@@ -190,7 +183,6 @@ extension Numeric.Math.Accessor where T == Float16 {
 
 // MARK: - Inverse Hyperbolic Functions
 
-@available(macOS 11.0, iOS 14.0, tvOS 14.0, watchOS 7.0, *)
 extension Numeric.Math.Accessor where T == Float16 {
     /// Inverse hyperbolic sine
     @inlinable
@@ -207,7 +199,6 @@ extension Numeric.Math.Accessor where T == Float16 {
 
 // MARK: - Special Functions
 
-@available(macOS 11.0, iOS 14.0, tvOS 14.0, watchOS 7.0, *)
 extension Numeric.Math.Accessor where T == Float16 {
     /// Error function
     @inlinable
@@ -221,7 +212,7 @@ extension Numeric.Math.Accessor where T == Float16 {
     @inlinable
     public func tgamma(_ x: Float16) -> Float16 { Float16._tgamma(x) }
 
-    #if !os(Windows)
+    #if canImport(Darwin) || canImport(Glibc) || canImport(Musl)
     /// Logarithm of the absolute value of gamma function.
     @inlinable
     public func logGamma(_ x: Float16) -> Float16 { Float16._logGamma(x) }

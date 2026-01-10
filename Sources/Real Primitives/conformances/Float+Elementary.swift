@@ -44,7 +44,7 @@ extension Float: Numeric.Elementary {
     @inlinable public static func _erfc(_ x: Float) -> Float { Numeric.Math.erfc(x) }
     @inlinable public static func _tgamma(_ x: Float) -> Float { Numeric.Math.tgamma(x) }
 
-    #if !os(Windows)
+    #if canImport(Darwin) || canImport(Glibc) || canImport(Musl)
     @inlinable public static func _logGamma(_ x: Float) -> Float { Numeric.Math.lgamma(x) }
     #endif
 
@@ -215,7 +215,7 @@ extension Numeric.Math.Accessor where T == Float {
     @inlinable
     public func tgamma(_ x: Float) -> Float { Numeric.Math.tgamma(x) }
 
-    #if !os(Windows)
+    #if canImport(Darwin) || canImport(Glibc) || canImport(Musl)
     /// Logarithm of the absolute value of gamma function.
     ///
     /// Use together with `signGamma` to recover the sign.

@@ -62,11 +62,11 @@ extension Numeric {
         static func _erfc(_ x: Self) -> Self
         static func _tgamma(_ x: Self) -> Self
 
-        #if !os(Windows)
-        /// Log of absolute value of gamma function (not available on Windows).
+        #if canImport(Darwin) || canImport(Glibc) || canImport(Musl)
+        /// Log of absolute value of gamma function.
         static func _logGamma(_ x: Self) -> Self
 
-        /// Sign of gamma function (not available on Windows).
+        /// Sign of gamma function.
         static func _signGamma(_ x: Self) -> FloatingPointSign
         #endif
 
@@ -101,7 +101,7 @@ extension Numeric.Elementary {
         a * b
     }
 
-    #if !os(Windows)
+    #if canImport(Darwin) || canImport(Glibc) || canImport(Musl)
     /// Default implementation of signGamma.
     ///
     /// For x >= 0, gamma is positive. For negative x at integer values (poles),

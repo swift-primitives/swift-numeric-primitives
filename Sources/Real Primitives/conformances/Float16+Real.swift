@@ -10,10 +10,9 @@
 //
 // ===----------------------------------------------------------------------===//
 
-// Float16 is only available on arm64 macOS, not on x86_64.
-#if !((os(macOS) || targetEnvironment(macCatalyst)) && arch(x86_64))
+// Float16 is available on arm64 Apple platforms, iOS, tvOS, watchOS, and visionOS.
+#if os(iOS) || os(tvOS) || os(watchOS) || os(visionOS) || ((os(macOS) || targetEnvironment(macCatalyst)) && arch(arm64))
 
-@available(macOS 11.0, iOS 14.0, tvOS 14.0, watchOS 7.0, *)
 extension Float16: Numeric.Real {}
 
 #endif
