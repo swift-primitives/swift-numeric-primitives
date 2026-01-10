@@ -22,19 +22,19 @@ struct ElementaryTests {
     func exp() {
         let result = Double.math.exp(1.0)
         // e ≈ 2.71828...
-        #expect(result.approximate.equals(2.718281828459045, tolerance: 1e-10))
+        #expect(result.equals.approximate(2.718281828459045, tolerance: 1e-10))
     }
 
     @Test
     func expMinusOne() {
         // exp(0) - 1 = 0
-        let result = Double.math.exp(minusOne: 0.0)
-        #expect(result.approximate.equals(0.0, tolerance: 1e-15))
+        let result = Double.math.exp.minus.one(0.0)
+        #expect(result.equals.approximate(0.0, tolerance: 1e-15))
 
         // For small x, exp(x) - 1 ≈ x
         let small = 1e-10
-        let resultSmall = Double.math.exp(minusOne: small)
-        #expect(resultSmall.approximate.equals(small, tolerance: 1e-15))
+        let resultSmall = Double.math.exp.minus.one(small)
+        #expect(resultSmall.equals.approximate(small, tolerance: 1e-15))
     }
 
     // MARK: - Logarithmic Functions
@@ -43,19 +43,19 @@ struct ElementaryTests {
     func log() {
         let e = Double.math.exp(1.0)
         let result = Double.math.log(e)
-        #expect(result.approximate.equals(1.0, tolerance: 1e-10))
+        #expect(result.equals.approximate(1.0, tolerance: 1e-10))
     }
 
     @Test
     func logOnePlus() {
         // log(1 + 0) = 0
-        let result = Double.math.log(onePlus: 0.0)
-        #expect(result.approximate.equals(0.0, tolerance: 1e-15))
+        let result = Double.math.log.one.plus(0.0)
+        #expect(result.equals.approximate(0.0, tolerance: 1e-15))
 
         // For small x, log(1 + x) ≈ x
         let small = 1e-10
-        let resultSmall = Double.math.log(onePlus: small)
-        #expect(resultSmall.approximate.equals(small, tolerance: 1e-15))
+        let resultSmall = Double.math.log.one.plus(small)
+        #expect(resultSmall.equals.approximate(small, tolerance: 1e-15))
     }
 
     // MARK: - Trigonometric Functions
@@ -68,35 +68,35 @@ struct ElementaryTests {
 
         // sin(π/4) = cos(π/4) = √2/2
         let expected = Double.math.sqrt(2.0) / 2
-        #expect(s.approximate.equals(expected, tolerance: 1e-10))
-        #expect(c.approximate.equals(expected, tolerance: 1e-10))
+        #expect(s.equals.approximate(expected, tolerance: 1e-10))
+        #expect(c.equals.approximate(expected, tolerance: 1e-10))
 
         // sin²(x) + cos²(x) = 1
-        #expect((s * s + c * c).approximate.equals(1.0, tolerance: 1e-10))
+        #expect((s * s + c * c).equals.approximate(1.0, tolerance: 1e-10))
     }
 
     @Test
     func cosMinusOne() {
         // cos(0) - 1 = 0
-        let result = Double.math.cos(minusOne: 0.0)
-        #expect(result.approximate.equals(0.0, tolerance: 1e-15))
+        let result = Double.math.cos.minus.one(0.0)
+        #expect(result.equals.approximate(0.0, tolerance: 1e-15))
 
         // For small x, cos(x) - 1 ≈ -x²/2
         let small = 1e-5
-        let resultSmall = Double.math.cos(minusOne: small)
+        let resultSmall = Double.math.cos.minus.one(small)
         let expected = -small * small / 2
-        #expect(resultSmall.approximate.equals(expected, tolerance: 1e-15))
+        #expect(resultSmall.equals.approximate(expected, tolerance: 1e-15))
     }
 
     @Test
     func atan2() {
         // atan2(1, 1) = π/4
         let result = Double.math.atan2(1.0, 1.0)
-        #expect(result.approximate.equals(Double.pi / 4, tolerance: 1e-10))
+        #expect(result.equals.approximate(Double.pi / 4, tolerance: 1e-10))
 
         // atan2(0, 1) = 0
         let zero = Double.math.atan2(0.0, 1.0)
-        #expect(zero.approximate.equals(0.0, tolerance: 1e-15))
+        #expect(zero.equals.approximate(0.0, tolerance: 1e-15))
     }
 
     // MARK: - Hyperbolic Functions
@@ -108,7 +108,7 @@ struct ElementaryTests {
         let c = Double.math.cosh(x)
 
         // cosh²(x) - sinh²(x) = 1
-        #expect((c * c - s * s).approximate.equals(1.0, tolerance: 1e-10))
+        #expect((c * c - s * s).equals.approximate(1.0, tolerance: 1e-10))
     }
 
     // MARK: - Power Functions
@@ -116,20 +116,20 @@ struct ElementaryTests {
     @Test
     func pow() {
         let result = Double.math.pow(2.0, 3.0)
-        #expect(result.approximate.equals(8.0, tolerance: 1e-10))
+        #expect(result.equals.approximate(8.0, tolerance: 1e-10))
     }
 
     @Test
     func sqrt() {
         let result = Double.math.sqrt(4.0)
-        #expect(result.approximate.equals(2.0, tolerance: 1e-15))
+        #expect(result.equals.approximate(2.0, tolerance: 1e-15))
     }
 
     @Test
     func hypot() {
         // 3² + 4² = 5²
         let result = Double.math.hypot(3.0, 4.0)
-        #expect(result.approximate.equals(5.0, tolerance: 1e-10))
+        #expect(result.equals.approximate(5.0, tolerance: 1e-10))
     }
 
     // MARK: - Root Functions
@@ -138,37 +138,37 @@ struct ElementaryTests {
     func rootSquare() {
         // √4 = 2
         let result = Double.math.root(4.0, 2)
-        #expect(result.approximate.equals(2.0, tolerance: 1e-10))
+        #expect(result.equals.approximate(2.0, tolerance: 1e-10))
 
         // √9 = 3
         let result2 = Double.math.root(9.0, 2)
-        #expect(result2.approximate.equals(3.0, tolerance: 1e-10))
+        #expect(result2.equals.approximate(3.0, tolerance: 1e-10))
     }
 
     @Test
     func rootCube() {
         // ∛8 = 2
         let result = Double.math.root(8.0, 3)
-        #expect(result.approximate.equals(2.0, tolerance: 1e-10))
+        #expect(result.equals.approximate(2.0, tolerance: 1e-10))
 
         // ∛27 = 3
         let result2 = Double.math.root(27.0, 3)
-        #expect(result2.approximate.equals(3.0, tolerance: 1e-10))
+        #expect(result2.equals.approximate(3.0, tolerance: 1e-10))
 
         // ∛(-8) = -2 (real cube root of negative)
         let negResult = Double.math.root(-8.0, 3)
-        #expect(negResult.approximate.equals(-2.0, tolerance: 1e-10))
+        #expect(negResult.equals.approximate(-2.0, tolerance: 1e-10))
     }
 
     @Test
     func rootFourth() {
         // ⁴√16 = 2
         let result = Double.math.root(16.0, 4)
-        #expect(result.approximate.equals(2.0, tolerance: 1e-10))
+        #expect(result.equals.approximate(2.0, tolerance: 1e-10))
 
         // ⁴√81 = 3
         let result2 = Double.math.root(81.0, 4)
-        #expect(result2.approximate.equals(3.0, tolerance: 1e-10))
+        #expect(result2.equals.approximate(3.0, tolerance: 1e-10))
     }
 
     @Test
@@ -185,20 +185,20 @@ struct ElementaryTests {
     func rootNegativeOdd() {
         // Odd roots of negative numbers are real
         let result = Double.math.root(-27.0, 3)
-        #expect(result.approximate.equals(-3.0, tolerance: 1e-10))
+        #expect(result.equals.approximate(-3.0, tolerance: 1e-10))
 
         let result2 = Double.math.root(-32.0, 5)
-        #expect(result2.approximate.equals(-2.0, tolerance: 1e-10))
+        #expect(result2.equals.approximate(-2.0, tolerance: 1e-10))
     }
 
     @Test
     func rootFloat() {
         // Test Float variant
         let result: Float = Float.math.root(8.0, 3)
-        #expect(result.approximate.equals(2.0, tolerance: 1e-5))
+        #expect(result.equals.approximate(2.0, tolerance: 1e-5))
 
         let negResult: Float = Float.math.root(-8.0, 3)
-        #expect(negResult.approximate.equals(-2.0, tolerance: 1e-5))
+        #expect(negResult.equals.approximate(-2.0, tolerance: 1e-5))
     }
 
     // MARK: - Gamma Functions
@@ -208,26 +208,26 @@ struct ElementaryTests {
     func logGammaPositive() {
         // logGamma(1) = log(0!) = log(1) = 0
         let result = Double.math.logGamma(1.0)
-        #expect(result.approximate.equals(0.0, tolerance: 1e-10))
+        #expect(result.equals.approximate(0.0, tolerance: 1e-10))
 
         // logGamma(2) = log(1!) = log(1) = 0
         let result2 = Double.math.logGamma(2.0)
-        #expect(result2.approximate.equals(0.0, tolerance: 1e-10))
+        #expect(result2.equals.approximate(0.0, tolerance: 1e-10))
 
         // logGamma(3) = log(2!) = log(2) ≈ 0.693
         let result3 = Double.math.logGamma(3.0)
-        #expect(result3.approximate.equals(Double.math.log(2.0), tolerance: 1e-10))
+        #expect(result3.equals.approximate(Double.math.log(2.0), tolerance: 1e-10))
 
         // logGamma(4) = log(3!) = log(6) ≈ 1.791
         let result4 = Double.math.logGamma(4.0)
-        #expect(result4.approximate.equals(Double.math.log(6.0), tolerance: 1e-10))
+        #expect(result4.equals.approximate(Double.math.log(6.0), tolerance: 1e-10))
     }
 
     @Test
     func logGammaFloat() {
         // Test Float variant
         let result: Float = Float.math.logGamma(3.0)
-        #expect(result.approximate.equals(Float.math.log(2.0), tolerance: 1e-5))
+        #expect(result.equals.approximate(Float.math.log(2.0), tolerance: 1e-5))
     }
 
     @Test
@@ -268,7 +268,7 @@ struct ElementaryTests {
         let x = 3.5
         let logG = Double.math.logGamma(x)
         let gamma = Double.math.tgamma(x)
-        #expect(Double.math.exp(logG).approximate.equals(gamma.magnitude, tolerance: 1e-10))
+        #expect(Double.math.exp(logG).equals.approximate(gamma.magnitude, tolerance: 1e-10))
 
         // Sign should match
         #expect(Double.math.signGamma(x) == (gamma >= 0 ? .plus : .minus))

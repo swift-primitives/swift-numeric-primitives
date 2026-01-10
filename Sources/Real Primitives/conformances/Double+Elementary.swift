@@ -62,13 +62,9 @@ extension Double: Numeric.Elementary {
 // MARK: - Exponential Functions
 
 extension Numeric.Math.Accessor where T == Double {
-    /// e^x
+    /// Access exponential function and variants.
     @inlinable
-    public func exp(_ x: Double) -> Double { Numeric.Math.exp(x) }
-
-    /// e^x - 1, accurate for small x
-    @inlinable
-    public func exp(minusOne x: Double) -> Double { Numeric.Math.expm1(x) }
+    public var exp: Numeric.Math.Exp<Double> { .init() }
 
     /// 2^x
     @inlinable
@@ -78,13 +74,9 @@ extension Numeric.Math.Accessor where T == Double {
 // MARK: - Logarithmic Functions
 
 extension Numeric.Math.Accessor where T == Double {
-    /// Natural logarithm
+    /// Access logarithm function and variants.
     @inlinable
-    public func log(_ x: Double) -> Double { Numeric.Math.log(x) }
-
-    /// log(1+x), accurate for small x
-    @inlinable
-    public func log(onePlus x: Double) -> Double { Numeric.Math.log1p(x) }
+    public var log: Numeric.Math.Log<Double> { .init() }
 
     /// Base-2 logarithm
     @inlinable
@@ -129,23 +121,13 @@ extension Numeric.Math.Accessor where T == Double {
     @inlinable
     public func sin(_ x: Double) -> Double { Numeric.Math.sin(x) }
 
-    /// Cosine
+    /// Access cosine function and variants.
     @inlinable
-    public func cos(_ x: Double) -> Double { Numeric.Math.cos(x) }
+    public var cos: Numeric.Math.Cos<Double> { .init() }
 
     /// Tangent
     @inlinable
     public func tan(_ x: Double) -> Double { Numeric.Math.tan(x) }
-
-    /// cos(x) - 1, accurate for small x
-    ///
-    /// Uses the identity: cos(x) - 1 = -2 * sin(x/2)^2
-    @inlinable
-    public func cos(minusOne x: Double) -> Double {
-        let halfX = x / 2
-        let sinHalf = Numeric.Math.sin(halfX)
-        return -2 * sinHalf * sinHalf
-    }
 }
 
 // MARK: - Inverse Trigonometric Functions

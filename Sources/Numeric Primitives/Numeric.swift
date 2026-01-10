@@ -29,7 +29,7 @@
 ///
 /// // Approximate equality
 /// let x = 1.0 / 3.0 * 3.0
-/// x.approximate.equals(1.0, tolerance: 1e-15)  // true
+/// x.equals.approximate(1.0, tolerance: 1e-15)  // true
 /// ```
 public enum Numeric {
     public typealias `Protocol` = Swift.Numeric

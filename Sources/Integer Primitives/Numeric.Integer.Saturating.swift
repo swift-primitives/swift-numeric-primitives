@@ -20,7 +20,7 @@ extension Numeric.Integer {
     /// let result = Int8.max.saturating.add(10)  // 127 (clamped)
     /// let diff = Int8.min.saturating.subtract(10)  // -128 (clamped)
     /// ```
-    public struct Saturating<T: FixedWidthInteger>: Sendable where T: Sendable {
+    public struct Saturating<T: FixedWidthInteger> {
         @usableFromInline
         let value: T
 
@@ -30,6 +30,8 @@ extension Numeric.Integer {
         }
     }
 }
+
+extension Numeric.Integer.Saturating: Sendable where T: Sendable {}
 
 // MARK: - Saturating Operations
 

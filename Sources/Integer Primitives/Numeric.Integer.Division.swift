@@ -19,7 +19,7 @@ extension Numeric.Integer {
     /// let q = 17.division(by: 5)             // quotient only
     /// let (q, r) = 17.division.parts(by: 5)  // quotient and remainder
     /// ```
-    public struct Division<T: SignedInteger>: Sendable where T: Sendable {
+    public struct Division<T: SignedInteger> {
         @usableFromInline
         let value: T
 
@@ -29,6 +29,8 @@ extension Numeric.Integer {
         }
     }
 }
+
+extension Numeric.Integer.Division: Sendable where T: Sendable {}
 
 // MARK: - Division Operations
 

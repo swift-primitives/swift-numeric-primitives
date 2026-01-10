@@ -64,13 +64,9 @@ extension Float16: Numeric.Elementary {
 // MARK: - Exponential Functions
 
 extension Numeric.Math.Accessor where T == Float16 {
-    /// e^x
+    /// Access exponential function and variants.
     @inlinable
-    public func exp(_ x: Float16) -> Float16 { Float16._exp(x) }
-
-    /// e^x - 1, accurate for small x
-    @inlinable
-    public func exp(minusOne x: Float16) -> Float16 { Float16._expm1(x) }
+    public var exp: Numeric.Math.Exp<Float16> { .init() }
 
     /// 2^x
     @inlinable
@@ -80,13 +76,9 @@ extension Numeric.Math.Accessor where T == Float16 {
 // MARK: - Logarithmic Functions
 
 extension Numeric.Math.Accessor where T == Float16 {
-    /// Natural logarithm
+    /// Access logarithm function and variants.
     @inlinable
-    public func log(_ x: Float16) -> Float16 { Float16._log(x) }
-
-    /// log(1+x), accurate for small x
-    @inlinable
-    public func log(onePlus x: Float16) -> Float16 { Float16._log1p(x) }
+    public var log: Numeric.Math.Log<Float16> { .init() }
 
     /// Base-2 logarithm
     @inlinable
@@ -128,21 +120,13 @@ extension Numeric.Math.Accessor where T == Float16 {
     @inlinable
     public func sin(_ x: Float16) -> Float16 { Float16._sin(x) }
 
-    /// Cosine
+    /// Access cosine function and variants.
     @inlinable
-    public func cos(_ x: Float16) -> Float16 { Float16._cos(x) }
+    public var cos: Numeric.Math.Cos<Float16> { .init() }
 
     /// Tangent
     @inlinable
     public func tan(_ x: Float16) -> Float16 { Float16._tan(x) }
-
-    /// cos(x) - 1, accurate for small x
-    @inlinable
-    public func cos(minusOne x: Float16) -> Float16 {
-        let halfX = x / 2
-        let sinHalf = Float16._sin(halfX)
-        return -2 * sinHalf * sinHalf
-    }
 }
 
 // MARK: - Inverse Trigonometric Functions

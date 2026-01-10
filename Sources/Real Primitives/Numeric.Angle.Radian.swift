@@ -23,7 +23,7 @@ extension Numeric.Angle.Radian {
     /// operations and trigonometric functions.
     ///
     /// ```swift
-    /// let angle: Radian<Double> = .halfPi  // π/2
+    /// let angle: Radian<Double> = .pi.half  // π/2
     /// let sine = Double.math.sin(angle.rawValue)
     /// ```
     public typealias Value<Scalar> = Tagged<Numeric.Angle.Radian, Scalar>
@@ -39,21 +39,68 @@ extension Tagged where Tag == Numeric.Angle.Radian, RawValue: BinaryFloatingPoin
     @inlinable
     public static var zero: Self { Self(0) }
 
-    /// π radians (180 degrees).
+    /// Access π-based angle values.
+    ///
+    /// ```swift
+    /// Radian<Double>.pi.half              // π/2
+    /// Radian<Double>.pi.quarter           // π/4
+    /// Radian<Double>.pi.two               // 2π
+    /// Radian<Double>.pi.fraction<1, 3>()  // π/3
+    /// ```
     @inlinable
-    public static var pi: Self { Self(.pi) }
+    public static var pi: Numeric.Angle.Radian.Pi<RawValue> { .init() }
+}
 
-    /// π/2 radians (90 degrees).
-    @inlinable
-    public static var halfPi: Self { Self(.pi / 2) }
+// MARK: - Pi Accessor
 
-    /// 2π radians (360 degrees).
-    @inlinable
-    public static var twoPi: Self { Self(.pi * 2) }
+extension Numeric.Angle.Radian {
+    /// Accessor for π-based angle values with compile-time fraction support.
+    ///
+    /// Provides common angle fractions and arbitrary fractions via integer
+    /// generic parameters (SE-0452).
+    public struct Pi<Scalar: BinaryFloatingPoint>: Sendable {
+        @usableFromInline
+        internal init() {}
 
-    /// π/4 radians (45 degrees).
-    @inlinable
-    public static var quarterPi: Self { Self(.pi / 4) }
+        /// π radians (180 degrees).
+        @inlinable
+        public var full: Radian<Scalar> { Radian(.pi) }
+
+        /// π/2 radians (90 degrees).
+        @inlinable
+        public var half: Radian<Scalar> { Radian(.pi / 2) }
+
+        /// π/4 radians (45 degrees).
+        @inlinable
+        public var quarter: Radian<Scalar> { Radian(.pi / 4) }
+
+        /// 2π radians (360 degrees).
+        @inlinable
+        public var two: Radian<Scalar> { Radian(.pi * 2) }
+
+        /// π/3 radians (60 degrees).
+        @inlinable
+        public var third: Radian<Scalar> { Radian(.pi / 3) }
+
+        /// π/6 radians (30 degrees).
+        @inlinable
+        public var sixth: Radian<Scalar> { Radian(.pi / 6) }
+
+        /// Typealias for compile-time fraction of π.
+        public typealias Fraction<let Numerator: Int, let Denominator: Int> = Numeric.Fraction<Numerator, Denominator, Radian<Scalar>>
+
+        /// Access arbitrary fraction of π with compile-time integer parameters.
+        ///
+        /// ```swift
+        /// Radian<Double>.pi.fraction<1, 3>()()  // π/3
+        /// Radian<Double>.pi.fraction<3, 4>()()  // 3π/4
+        /// ```
+        @inlinable
+        public func fraction<let Numerator: Int, let Denominator: Int>() -> Fraction<Numerator, Denominator>
+        where Scalar: Sendable {
+            .init(Radian(.pi * Scalar(Numerator) / Scalar(Denominator)))
+        }
+    }
 }
 
 // MARK: - Arithmetic

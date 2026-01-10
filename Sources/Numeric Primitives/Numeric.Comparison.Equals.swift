@@ -11,16 +11,16 @@
 // ===----------------------------------------------------------------------===//
 
 extension Numeric.Comparison {
-    /// Accessor struct for approximate equality comparisons.
+    /// Accessor struct for equality comparisons with various modes.
     ///
-    /// Access via the `.approximate` property on numeric values:
+    /// Access via the `.equals` property on numeric values:
     ///
     /// ```swift
     /// let x = 1.0 / 3.0 * 3.0
-    /// x.approximate.equals(1.0, tolerance: 1e-15)
-    /// x.approximate.equals(1.0, absolute: 1e-10, relative: 1e-5)
+    /// x.equals.approximate(1.0, tolerance: 1e-15)
+    /// x.equals.approximate(1.0, absolute: 1e-10, relative: 1e-5)
     /// ```
-    public struct Approximate<T>: Sendable where T: Sendable {
+    public struct Equals<T> {
         @usableFromInline
         let value: T
 
@@ -31,9 +31,11 @@ extension Numeric.Comparison {
     }
 }
 
+extension Numeric.Comparison.Equals: Sendable where T: Sendable {}
+
 // MARK: - FloatingPoint Comparisons
 
-extension Numeric.Comparison.Approximate where T: FloatingPoint {
+extension Numeric.Comparison.Equals where T: FloatingPoint {
     /// Tests if two values are approximately equal within tolerance.
     ///
     /// Returns `true` if `|self - other| <= tolerance`.
@@ -43,7 +45,7 @@ extension Numeric.Comparison.Approximate where T: FloatingPoint {
     ///   - tolerance: Maximum allowed absolute difference.
     /// - Returns: `true` if values are within tolerance of each other.
     @inlinable
-    public func equals(_ other: T, tolerance: T) -> Bool {
+    public func approximate(_ other: T, tolerance: T) -> Bool {
         (value - other).magnitude <= tolerance
     }
 
@@ -57,7 +59,7 @@ extension Numeric.Comparison.Approximate where T: FloatingPoint {
     ///   - relative: Relative tolerance component (default 0).
     /// - Returns: `true` if values are within combined tolerance.
     @inlinable
-    public func equals(_ other: T, absolute: T, relative: T = .zero) -> Bool {
+    public func approximate(_ other: T, absolute: T, relative: T = .zero) -> Bool {
         let diff = (value - other).magnitude
         let scale = Swift.max(value.magnitude, other.magnitude)
         return diff <= absolute + relative * scale
@@ -66,7 +68,7 @@ extension Numeric.Comparison.Approximate where T: FloatingPoint {
 
 // MARK: - Signed Numeric Comparisons
 
-extension Numeric.Comparison.Approximate where T: SignedNumeric, T.Magnitude: Comparable {
+extension Numeric.Comparison.Equals where T: SignedNumeric, T.Magnitude: Comparable {
     /// Tests if two values are approximately equal within tolerance.
     ///
     /// - Parameters:
@@ -74,7 +76,34 @@ extension Numeric.Comparison.Approximate where T: SignedNumeric, T.Magnitude: Co
     ///   - tolerance: Maximum allowed absolute difference.
     /// - Returns: `true` if values are within tolerance of each other.
     @inlinable
-    public func equals(_ other: T, tolerance: T.Magnitude) -> Bool {
+    public func approximate(_ other: T, tolerance: T.Magnitude) -> Bool {
         (value - other).magnitude <= tolerance
+    }
+}
+
+// MARK: - Access via .equals property
+
+extension FloatingPoint where Self: Sendable {
+    /// Access equality comparisons.
+    ///
+    /// ## Example
+    ///
+    /// ```swift
+    /// let x = 1.0 / 3.0 * 3.0
+    /// if x.equals.approximate(1.0, tolerance: 1e-15) {
+    ///     print("Close enough!")
+    /// }
+    /// ```
+    @inlinable
+    public var equals: Numeric.Comparison.Equals<Self> {
+        Numeric.Comparison.Equals(self)
+    }
+}
+
+extension SignedNumeric where Self: Sendable {
+    /// Access equality comparisons.
+    @inlinable
+    public var equals: Numeric.Comparison.Equals<Self> {
+        Numeric.Comparison.Equals(self)
     }
 }

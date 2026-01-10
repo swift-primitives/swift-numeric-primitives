@@ -97,8 +97,8 @@ struct ComplexArithmeticTests {
         let z = Numeric.Complex(1.0, 2.0)
         let w = Numeric.Complex(3.0, 4.0)
         let product = z * w
-        #expect(product.real.approximate.equals(-5.0, tolerance: 1e-10))
-        #expect(product.imaginary.approximate.equals(10.0, tolerance: 1e-10))
+        #expect(product.real.equals.approximate(-5.0, tolerance: 1e-10))
+        #expect(product.imaginary.equals.approximate(10.0, tolerance: 1e-10))
     }
 
     @Test
@@ -113,8 +113,8 @@ struct ComplexArithmeticTests {
     func iSquaredIsMinusOne() {
         let i = Numeric.Complex<Double>.i
         let iSquared = i * i
-        #expect(iSquared.real.approximate.equals(-1.0, tolerance: 1e-15))
-        #expect(iSquared.imaginary.approximate.equals(0.0, tolerance: 1e-15))
+        #expect(iSquared.real.equals.approximate(-1.0, tolerance: 1e-15))
+        #expect(iSquared.imaginary.equals.approximate(0.0, tolerance: 1e-15))
     }
 
     // MARK: - Division
@@ -125,8 +125,8 @@ struct ComplexArithmeticTests {
         let z = Numeric.Complex(3.0, 4.0)
         let w = Numeric.Complex(1.0, 2.0)
         let quotient = z / w
-        #expect(quotient.real.approximate.equals(11.0 / 5.0, tolerance: 1e-10))
-        #expect(quotient.imaginary.approximate.equals(-2.0 / 5.0, tolerance: 1e-10))
+        #expect(quotient.real.equals.approximate(11.0 / 5.0, tolerance: 1e-10))
+        #expect(quotient.imaginary.equals.approximate(-2.0 / 5.0, tolerance: 1e-10))
     }
 
     @Test
@@ -161,8 +161,8 @@ struct ComplexArithmeticTests {
         // z * conjugate(z) = |z|²
         let z = Numeric.Complex(3.0, 4.0)
         let product = z * z.conjugate
-        #expect(product.real.approximate.equals(25.0, tolerance: 1e-10))
-        #expect(product.imaginary.approximate.equals(0.0, tolerance: 1e-15))
+        #expect(product.real.equals.approximate(25.0, tolerance: 1e-10))
+        #expect(product.imaginary.equals.approximate(0.0, tolerance: 1e-15))
     }
 
     // MARK: - Reciprocal
@@ -176,8 +176,8 @@ struct ComplexArithmeticTests {
 
         // z * 1/z = 1
         let product = z * recip1
-        #expect(product.real.approximate.equals(1.0, tolerance: 1e-10))
-        #expect(product.imaginary.approximate.equals(0.0, tolerance: 1e-10))
+        #expect(product.real.equals.approximate(1.0, tolerance: 1e-10))
+        #expect(product.imaginary.equals.approximate(0.0, tolerance: 1e-10))
 
         // Instance property
         let recip2 = z.reciprocal
