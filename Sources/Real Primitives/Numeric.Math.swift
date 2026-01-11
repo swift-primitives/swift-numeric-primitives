@@ -220,3 +220,102 @@ extension Numeric.Math {
     internal static func lgamma(_ x: Double) -> Double { shim_lgamma(x) }
     #endif
 }
+
+// MARK: - Float16
+
+#if os(iOS) || os(tvOS) || os(watchOS) || os(visionOS) || ((os(macOS) || targetEnvironment(macCatalyst)) && arch(arm64))
+extension Numeric.Math {
+    @usableFromInline
+    internal static func exp(_ x: Float16) -> Float16 { Float16(shim_expf(Float(x))) }
+
+    @usableFromInline
+    internal static func expm1(_ x: Float16) -> Float16 { Float16(shim_expm1f(Float(x))) }
+
+    @usableFromInline
+    internal static func log(_ x: Float16) -> Float16 { Float16(shim_logf(Float(x))) }
+
+    @usableFromInline
+    internal static func log1p(_ x: Float16) -> Float16 { Float16(shim_log1pf(Float(x))) }
+
+    @usableFromInline
+    internal static func log2(_ x: Float16) -> Float16 { Float16(shim_log2f(Float(x))) }
+
+    @usableFromInline
+    internal static func log10(_ x: Float16) -> Float16 { Float16(shim_log10f(Float(x))) }
+
+    @usableFromInline
+    internal static func sin(_ x: Float16) -> Float16 { Float16(shim_sinf(Float(x))) }
+
+    @usableFromInline
+    internal static func cos(_ x: Float16) -> Float16 { Float16(shim_cosf(Float(x))) }
+
+    @usableFromInline
+    internal static func tan(_ x: Float16) -> Float16 { Float16(shim_tanf(Float(x))) }
+
+    @usableFromInline
+    internal static func asin(_ x: Float16) -> Float16 { Float16(shim_asinf(Float(x))) }
+
+    @usableFromInline
+    internal static func acos(_ x: Float16) -> Float16 { Float16(shim_acosf(Float(x))) }
+
+    @usableFromInline
+    internal static func atan(_ x: Float16) -> Float16 { Float16(shim_atanf(Float(x))) }
+
+    @usableFromInline
+    internal static func atan2(_ y: Float16, _ x: Float16) -> Float16 { Float16(shim_atan2f(Float(y), Float(x))) }
+
+    @usableFromInline
+    internal static func sinh(_ x: Float16) -> Float16 { Float16(shim_sinhf(Float(x))) }
+
+    @usableFromInline
+    internal static func cosh(_ x: Float16) -> Float16 { Float16(shim_coshf(Float(x))) }
+
+    @usableFromInline
+    internal static func tanh(_ x: Float16) -> Float16 { Float16(shim_tanhf(Float(x))) }
+
+    @usableFromInline
+    internal static func asinh(_ x: Float16) -> Float16 { Float16(shim_asinhf(Float(x))) }
+
+    @usableFromInline
+    internal static func acosh(_ x: Float16) -> Float16 { Float16(shim_acoshf(Float(x))) }
+
+    @usableFromInline
+    internal static func atanh(_ x: Float16) -> Float16 { Float16(shim_atanhf(Float(x))) }
+
+    @usableFromInline
+    internal static func pow(_ x: Float16, _ y: Float16) -> Float16 { Float16(shim_powf(Float(x), Float(y))) }
+
+    @usableFromInline
+    internal static func sqrt(_ x: Float16) -> Float16 { Float16(shim_sqrtf(Float(x))) }
+
+    @usableFromInline
+    internal static func cbrt(_ x: Float16) -> Float16 { Float16(shim_cbrtf(Float(x))) }
+
+    @usableFromInline
+    internal static func root(_ x: Float16, _ n: Int) -> Float16 {
+        guard x >= 0 || n % 2 != 0 else { return .nan }
+        if n == 3 { return Float16(shim_cbrtf(Float(x))) }
+        return Float16(signOf: x, magnitudeOf: Float16(shim_powf(Float(x.magnitude), 1 / Float(n))))
+    }
+
+    @usableFromInline
+    internal static func hypot(_ x: Float16, _ y: Float16) -> Float16 { Float16(shim_hypotf(Float(x), Float(y))) }
+
+    @usableFromInline
+    internal static func exp2(_ x: Float16) -> Float16 { Float16(shim_exp2f(Float(x))) }
+
+    @usableFromInline
+    internal static func erf(_ x: Float16) -> Float16 { Float16(shim_erff(Float(x))) }
+
+    @usableFromInline
+    internal static func erfc(_ x: Float16) -> Float16 { Float16(shim_erfcf(Float(x))) }
+
+    @usableFromInline
+    internal static func tgamma(_ x: Float16) -> Float16 { Float16(shim_tgammaf(Float(x))) }
+
+    #if canImport(Darwin) || canImport(Glibc) || canImport(Musl)
+    @usableFromInline
+    internal static func lgamma(_ x: Float16) -> Float16 { Float16(shim_lgammaf(Float(x))) }
+    #endif
+}
+#endif

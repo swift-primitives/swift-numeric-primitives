@@ -14,12 +14,11 @@ let package = Package(
     products: [
         .library(name: "Numeric Primitives", targets: ["Numeric Primitives"]),
         .library(name: "Real Primitives", targets: ["Real Primitives"]),
-        .library(name: "Complex Primitives", targets: ["Complex Primitives"]),
         .library(name: "Integer Primitives", targets: ["Integer Primitives"]),
     ],
     dependencies: [
         .package(path: "../swift-identity-primitives"),
-        .package(path: "../swift-test-support-primitives"),
+        .package(path: "../swift-test-primitives"),
     ],
     targets: [
         // C shims for libm (internal only)
@@ -42,12 +41,6 @@ let package = Package(
             dependencies: ["Numeric Primitives", "_Shims"]
         ),
 
-        // Complex numbers
-        .target(
-            name: "Complex Primitives",
-            dependencies: ["Real Primitives"]
-        ),
-
         // Integer utilities
         .target(
             name: "Integer Primitives",
@@ -59,21 +52,14 @@ let package = Package(
             name: "Real Primitives Tests",
             dependencies: [
                 "Real Primitives",
-                .product(name: "Test Support Primitives", package: "swift-test-support-primitives"),
-            ]
-        ),
-        .testTarget(
-            name: "Complex Primitives Tests",
-            dependencies: [
-                "Complex Primitives",
-                .product(name: "Test Support Primitives", package: "swift-test-support-primitives"),
+                .product(name: "Test Primitives", package: "swift-test-primitives"),
             ]
         ),
         .testTarget(
             name: "Integer Primitives Tests",
             dependencies: [
                 "Integer Primitives",
-                .product(name: "Test Support Primitives", package: "swift-test-support-primitives"),
+                .product(name: "Test Primitives", package: "swift-test-primitives"),
             ]
         ),
     ],

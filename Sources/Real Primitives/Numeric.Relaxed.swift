@@ -10,6 +10,8 @@
 //
 // ===----------------------------------------------------------------------===//
 
+public import _Shims
+
 extension Numeric {
     /// Arithmetic operations with relaxed floating-point semantics.
     ///
@@ -49,88 +51,46 @@ extension Numeric {
     public enum Relaxed {}
 }
 
-// MARK: - Sum
+// MARK: - Double
 
 extension Numeric.Relaxed {
     /// `a + b`, with the optimizer permitted to reassociate and form FMAs.
-    ///
-    /// This is semantically equivalent to `a + b`, but grants the compiler
-    /// permission to reorder this operation relative to other relaxed
-    /// operations, enabling vectorization and loop unrolling.
-    ///
-    /// - Parameters:
-    ///   - a: First summand.
-    ///   - b: Second summand.
-    /// - Returns: The sum `a + b`, possibly computed in a different order
-    ///   than written if combined with other relaxed operations.
-    ///
-    /// ## Note
-    ///
-    /// If you want to compute `a - b` with relaxed semantics, use
-    /// `Numeric.Relaxed.sum(a, -b)`.
-    ///
-    /// ## Fallback
-    ///
-    /// On platforms that don't support relaxed floating-point, this decays
-    /// to a normal addition.
     @inlinable
-    public static func sum<T: Numeric.Real>(_ a: T, _ b: T) -> T {
-        T._relaxedAdd(a, b)
+    public static func sum(_ a: Double, _ b: Double) -> Double {
+        shim_relaxed_add(a, b)
     }
-}
 
-// MARK: - Product
-
-extension Numeric.Relaxed {
     /// `a * b`, with the optimizer permitted to reassociate and form FMAs.
-    ///
-    /// This is semantically equivalent to `a * b`, but grants the compiler
-    /// permission to reorder this operation relative to other relaxed
-    /// operations, and to fuse it with adjacent additions into FMAs.
-    ///
-    /// - Parameters:
-    ///   - a: First multiplicand.
-    ///   - b: Second multiplicand.
-    /// - Returns: The product `a * b`, possibly fused with other operations.
-    ///
-    /// ## Fallback
-    ///
-    /// On platforms that don't support relaxed floating-point, this decays
-    /// to a normal multiplication.
     @inlinable
-    public static func product<T: Numeric.Real>(_ a: T, _ b: T) -> T {
-        T._relaxedMul(a, b)
+    public static func product(_ a: Double, _ b: Double) -> Double {
+        shim_relaxed_mul(a, b)
+    }
+
+    /// `a * b + c`, computed either as FMA or separate operations.
+    @inlinable
+    public static func multiplyAdd(_ a: Double, _ b: Double, _ c: Double) -> Double {
+        shim_relaxed_add(c, shim_relaxed_mul(a, b))
     }
 }
 
-// MARK: - Multiply-Add
+// MARK: - Float
 
 extension Numeric.Relaxed {
-    /// `a * b + c`, computed either as FMA or separate operations.
-    ///
-    /// The optimizer may compute this as a fused multiply-add (FMA) or as
-    /// separate multiply and add, whichever is faster on the target platform.
-    ///
-    /// - Parameters:
-    ///   - a: First multiplicand.
-    ///   - b: Second multiplicand.
-    ///   - c: Addend.
-    /// - Returns: `a * b + c`, possibly as an FMA.
-    ///
-    /// ## Example
-    ///
-    /// ```swift
-    /// // Sum of squares using relaxed multiply-add
-    /// let sumOfSquares = array.reduce(0.0) {
-    ///     Numeric.Relaxed.multiplyAdd($1, $1, $0)
-    /// }
-    /// ```
+    /// `a + b`, with the optimizer permitted to reassociate and form FMAs.
     @inlinable
-    public static func multiplyAdd<T: Numeric.Real>(
-        _ a: T,
-        _ b: T,
-        _ c: T
-    ) -> T {
-        T._relaxedAdd(c, T._relaxedMul(a, b))
+    public static func sum(_ a: Float, _ b: Float) -> Float {
+        shim_relaxed_addf(a, b)
+    }
+
+    /// `a * b`, with the optimizer permitted to reassociate and form FMAs.
+    @inlinable
+    public static func product(_ a: Float, _ b: Float) -> Float {
+        shim_relaxed_mulf(a, b)
+    }
+
+    /// `a * b + c`, computed either as FMA or separate operations.
+    @inlinable
+    public static func multiplyAdd(_ a: Float, _ b: Float, _ c: Float) -> Float {
+        shim_relaxed_addf(c, shim_relaxed_mulf(a, b))
     }
 }
