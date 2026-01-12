@@ -17,8 +17,8 @@ let package = Package(
         .library(name: "Integer Primitives", targets: ["Integer Primitives"]),
     ],
     dependencies: [
-        .package(path: "../swift-identity-primitives"),
-        .package(path: "../swift-test-primitives"),
+        .package(url: "https://github.com/swift-primitives/swift-identity-primitives.git", from: "0.0.1"),
+        .package(url: "https://github.com/swift-primitives/swift-test-primitives.git", from: "0.0.1"),
     ],
     targets: [
         // C shims for libm (internal only)
