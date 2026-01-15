@@ -10,27 +10,7 @@
 //
 // ===----------------------------------------------------------------------===//
 
-extension Numeric.Math {
-    /// Zero-sized accessor token for elementary math operations.
-    ///
-    /// Methods are specialized per type via constrained extensions.
-    /// This pattern provides:
-    /// - Zero runtime cost (empty struct)
-    /// - No protocols required
-    /// - Type-safe dispatch
-    ///
-    /// Usage:
-    /// ```swift
-    /// Double.math.exp(x)           // e^x
-    /// Double.math.exp.minus.one(x) // e^x - 1
-    /// Double.math.log(x)           // ln(x)
-    /// Double.math.log.one.plus(x)  // ln(1+x)
-    /// ```
-    public struct Accessor<T>: Sendable {
-        @usableFromInline
-        internal init() {}
-    }
-}
+public import Numeric_Primitives
 
 // MARK: - Double
 

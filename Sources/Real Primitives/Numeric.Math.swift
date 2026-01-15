@@ -11,15 +11,7 @@
 // ===----------------------------------------------------------------------===//
 
 import _Shims
-
-extension Numeric {
-    /// Math namespace providing elementary mathematical operations.
-    ///
-    /// The internal static functions provide type-overloaded wrappers around
-    /// C shims. No `#if` appears outside of `_Shims`; all platform conditionals
-    /// are contained there.
-    public enum Math {}
-}
+public import Numeric_Primitives
 
 // MARK: - Float
 
