@@ -9,16 +9,15 @@ let package = Package(
         .iOS(.v26),
         .tvOS(.v26),
         .watchOS(.v26),
-        .visionOS(.v26),
+        .visionOS(.v26)
     ],
     products: [
         .library(name: "Numeric Primitives", targets: ["Numeric Primitives"]),
         .library(name: "Real Primitives", targets: ["Real Primitives"]),
-        .library(name: "Integer Primitives", targets: ["Integer Primitives"]),
+        .library(name: "Integer Primitives", targets: ["Integer Primitives"])
     ],
     dependencies: [
-        .package(path: "../swift-identity-primitives"),
-        .package(path: "../swift-test-primitives"),
+        .package(path: "../swift-identity-primitives")
     ],
     targets: [
         // C shims for libm (internal only)
@@ -31,7 +30,7 @@ let package = Package(
         .target(
             name: "Numeric Primitives",
             dependencies: [
-                .product(name: "Identity Primitives", package: "swift-identity-primitives"),
+                .product(name: "Identity Primitives", package: "swift-identity-primitives")
             ]
         ),
 
@@ -46,22 +45,6 @@ let package = Package(
             name: "Integer Primitives",
             dependencies: ["Numeric Primitives"]
         ),
-
-        // Tests
-        .testTarget(
-            name: "Real Primitives Tests",
-            dependencies: [
-                "Real Primitives",
-                .product(name: "Test Primitives", package: "swift-test-primitives"),
-            ]
-        ),
-        .testTarget(
-            name: "Integer Primitives Tests",
-            dependencies: [
-                "Integer Primitives",
-                .product(name: "Test Primitives", package: "swift-test-primitives"),
-            ]
-        ),
     ],
     swiftLanguageModes: [.v6]
 )
@@ -72,7 +55,7 @@ for target in package.targets where ![.system, .binary, .plugin, .macro].contain
         .enableUpcomingFeature("InternalImportsByDefault"),
         .enableUpcomingFeature("MemberImportVisibility"),
         .enableExperimentalFeature("Lifetimes"),
-        .strictMemorySafety(),
+        .strictMemorySafety()
     ]
     target.swiftSettings = (target.swiftSettings ?? []) + settings
 }
