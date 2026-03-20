@@ -14,7 +14,11 @@ let package = Package(
     products: [
         .library(name: "Numeric Primitives", targets: ["Numeric Primitives"]),
         .library(name: "Real Primitives", targets: ["Real Primitives"]),
-        .library(name: "Integer Primitives", targets: ["Integer Primitives"])
+        .library(name: "Integer Primitives", targets: ["Integer Primitives"]),
+        .library(
+            name: "Numeric Primitives Test Support",
+            targets: ["Numeric Primitives Test Support"]
+        ),
     ],
     dependencies: [
         .package(path: "../swift-identity-primitives")
@@ -56,6 +60,16 @@ let package = Package(
             dependencies: [
                 "Integer Primitives",
             ]
+        ),
+
+        // MARK: - Test Support
+        .target(
+            name: "Numeric Primitives Test Support",
+            dependencies: [
+                "Numeric Primitives",
+                .product(name: "Identity Primitives Test Support", package: "swift-identity-primitives"),
+            ],
+            path: "Tests/Support"
         ),
     ],
     swiftLanguageModes: [.v6]
