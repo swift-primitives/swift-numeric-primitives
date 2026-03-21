@@ -1,7 +1,6 @@
 // Shift.Tests.swift
 
 import Integer_Primitives
-import Numeric_Primitives
 import Testing
 
 // MARK: - Test Suite Declaration (Parallel Namespace per [TEST-004])

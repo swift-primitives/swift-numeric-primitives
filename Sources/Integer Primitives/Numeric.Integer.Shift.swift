@@ -10,7 +10,7 @@
 //
 // ===----------------------------------------------------------------------===//
 
-import Numeric_Primitives
+import Numeric_Primitives_Core
 
 extension Numeric.Integer {
     /// Accessor for shift operations with rounding.

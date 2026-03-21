@@ -10,4 +10,5 @@
 //
 // ===----------------------------------------------------------------------===//
 
-@_exported import Numeric_Primitives_Core
+// Re-export Tagged from Identity Primitives
+@_exported import struct Identity_Primitives.Tagged

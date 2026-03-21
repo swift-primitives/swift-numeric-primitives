@@ -13,6 +13,7 @@ let package = Package(
     ],
     products: [
         .library(name: "Numeric Primitives", targets: ["Numeric Primitives"]),
+        .library(name: "Numeric Primitives Core", targets: ["Numeric Primitives Core"]),
         .library(name: "Real Primitives", targets: ["Real Primitives"]),
         .library(name: "Integer Primitives", targets: ["Integer Primitives"]),
         .library(
@@ -30,24 +31,34 @@ let package = Package(
             publicHeadersPath: "include"
         ),
 
-        // Core module
+        // MARK: - Core
         .target(
-            name: "Numeric Primitives",
+            name: "Numeric Primitives Core",
             dependencies: [
                 .product(name: "Identity Primitives", package: "swift-identity-primitives")
             ]
         ),
 
-        // Real number functions
+        // MARK: - Real
         .target(
             name: "Real Primitives",
-            dependencies: ["Numeric Primitives", "_Shims"]
+            dependencies: ["Numeric Primitives Core", "_Shims"]
         ),
 
-        // Integer utilities
+        // MARK: - Integer
         .target(
             name: "Integer Primitives",
-            dependencies: ["Numeric Primitives"]
+            dependencies: ["Numeric Primitives Core"]
+        ),
+
+        // MARK: - Umbrella
+        .target(
+            name: "Numeric Primitives",
+            dependencies: [
+                "Numeric Primitives Core",
+                "Real Primitives",
+                "Integer Primitives",
+            ]
         ),
         .testTarget(
             name: "Real Primitives Tests",

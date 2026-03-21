@@ -10,7 +10,7 @@
 //
 // ===----------------------------------------------------------------------===//
 
-public import Numeric_Primitives
+public import Numeric_Primitives_Core
 
 // MARK: - Double Conformance
 
