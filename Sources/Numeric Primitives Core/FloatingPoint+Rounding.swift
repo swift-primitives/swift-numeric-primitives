@@ -24,7 +24,7 @@ extension FloatingPoint {
     /// 2.5.rounding(.even)           // 2.0 (banker's rounding)
     /// 2.5.rounding(.nearest(.away)) // 3.0
     /// ```
-    @inlinable @inline(__always)
+    @inlinable @inline(always)
     public func rounding(_ rule: Numeric.Rounding) -> Self {
         switch rule {
         case .direction(.down):

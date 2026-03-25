@@ -140,7 +140,7 @@ extension Numeric.Integer.Shift {
     /// `value` divided by 2^(`count`), rounding the result according to `rule`.
     ///
     /// Generic overload that accepts any `BinaryInteger` count.
-    @inlinable @inline(__always)
+    @inlinable @inline(always)
     public func right<Count: BinaryInteger>(
         by count: Count,
         rounding rule: Numeric.Rounding = .down
