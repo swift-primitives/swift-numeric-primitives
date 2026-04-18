@@ -15,6 +15,7 @@ let package = Package(
         .library(name: "Numeric Primitives", targets: ["Numeric Primitives"]),
         .library(name: "Numeric Primitives Core", targets: ["Numeric Primitives Core"]),
         .library(name: "Real Primitives", targets: ["Real Primitives"]),
+        .library(name: "Numeric Relaxed Primitives", targets: ["Numeric Relaxed Primitives"]),
         .library(name: "Integer Primitives", targets: ["Integer Primitives"]),
         .library(
             name: "Numeric Primitives Test Support",
@@ -45,6 +46,15 @@ let package = Package(
             dependencies: ["Numeric Primitives Core", "_Shims"]
         ),
 
+        // MARK: - Relaxed
+        // Carved out of Real Primitives so that `public import _Shims` no longer
+        // leaks through Real Primitives' interface. Consumers that need
+        // Numeric.Relaxed opt in explicitly via this product.
+        .target(
+            name: "Numeric Relaxed Primitives",
+            dependencies: ["Numeric Primitives Core", "_Shims"]
+        ),
+
         // MARK: - Integer
         .target(
             name: "Integer Primitives",
@@ -57,6 +67,7 @@ let package = Package(
             dependencies: [
                 "Numeric Primitives Core",
                 "Real Primitives",
+                "Numeric Relaxed Primitives",
                 "Integer Primitives",
             ]
         ),
@@ -64,6 +75,12 @@ let package = Package(
             name: "Real Primitives Tests",
             dependencies: [
                 "Real Primitives",
+            ]
+        ),
+        .testTarget(
+            name: "Numeric Relaxed Primitives Tests",
+            dependencies: [
+                "Numeric Relaxed Primitives",
             ]
         ),
         .testTarget(

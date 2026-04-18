@@ -10,6 +10,7 @@
 //
 // ===----------------------------------------------------------------------===//
 
+public import Numeric_Primitives_Core
 public import _Shims
 
 extension Numeric {
