@@ -1,6 +1,6 @@
 // Relaxed.Tests.swift
 
-import Numeric_Relaxed_Primitives
+import Numeric_Primitives_Test_Support
 import Testing
 
 // MARK: - Numeric.Relaxed Tests (Parallel Namespace per [TEST-004])

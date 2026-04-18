@@ -81,6 +81,7 @@ let package = Package(
             name: "Numeric Relaxed Primitives Tests",
             dependencies: [
                 "Numeric Relaxed Primitives",
+                "Numeric Primitives Test Support",
             ]
         ),
         .testTarget(
