@@ -11,4 +11,4 @@
 // ===----------------------------------------------------------------------===//
 
 // Re-export Tagged from Identity Primitives
-@_exported import struct Identity_Primitives.Tagged
+@_exported import struct Tagged_Primitives.Tagged

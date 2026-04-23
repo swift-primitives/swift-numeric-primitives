@@ -23,7 +23,7 @@ let package = Package(
         ),
     ],
     dependencies: [
-        .package(path: "../swift-identity-primitives")
+        .package(path: "../swift-tagged-primitives")
     ],
     targets: [
         // C shims for libm (internal only)
@@ -36,7 +36,7 @@ let package = Package(
         .target(
             name: "Numeric Primitives Core",
             dependencies: [
-                .product(name: "Identity Primitives", package: "swift-identity-primitives")
+                .product(name: "Tagged Primitives", package: "swift-tagged-primitives")
             ]
         ),
 
@@ -96,7 +96,7 @@ let package = Package(
             name: "Numeric Primitives Test Support",
             dependencies: [
                 "Numeric Primitives",
-                .product(name: "Identity Primitives Test Support", package: "swift-identity-primitives"),
+                .product(name: "Tagged Primitives Test Support", package: "swift-tagged-primitives"),
             ],
             path: "Tests/Support"
         ),
