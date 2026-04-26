@@ -138,14 +138,9 @@ SHIM_INLINE float shim_tgammaf(float x) {
     return __builtin_tgammaf(x);
 }
 
-#if !defined(_WIN32)
-/// Log of absolute value of gamma function (not available on Windows).
-SHIM_INLINE float shim_lgammaf(float x) {
-    extern float lgammaf_r(float, int *);
-    int dontCare;
-    return lgammaf_r(x, &dontCare);
-}
-#endif
+// shim_lgammaf removed 2026-04-26 — lgamma relocated to L3 swift-numerics
+// per /platform [PLAT-ARCH-008c]. Backed by L2 swift-iso-9899's libm
+// bindings (`ISO_9899.Math.lgamma`).
 
 // ===----------------------------------------------------------------------===//
 // MARK: - Double shims
@@ -259,14 +254,9 @@ SHIM_INLINE double shim_tgamma(double x) {
     return __builtin_tgamma(x);
 }
 
-#if !defined(_WIN32)
-/// Log of absolute value of gamma function (not available on Windows).
-SHIM_INLINE double shim_lgamma(double x) {
-    extern double lgamma_r(double, int *);
-    int dontCare;
-    return lgamma_r(x, &dontCare);
-}
-#endif
+// shim_lgamma removed 2026-04-26 — lgamma relocated to L3 swift-numerics
+// per /platform [PLAT-ARCH-008c]. Backed by L2 swift-iso-9899's libm
+// bindings (`ISO_9899.Math.lgamma`).
 
 // ===----------------------------------------------------------------------===//
 // MARK: - Float80 shims (x86 only, non-Windows)

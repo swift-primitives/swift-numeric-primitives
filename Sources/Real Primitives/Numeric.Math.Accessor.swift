@@ -149,15 +149,8 @@ extension Numeric.Math.Accessor where T == Double {
     @inlinable
     public func tgamma(_ x: Double) -> Double { Numeric.Math.tgamma(x) }
 
-    #if canImport(Darwin) || canImport(Glibc) || canImport(Musl)
-    /// Log of absolute value of gamma function.
-    @inlinable
-    public func lgamma(_ x: Double) -> Double { Numeric.Math.lgamma(x) }
-
-    /// Log of absolute value of gamma function (alias for lgamma).
-    @inlinable
-    public func logGamma(_ x: Double) -> Double { Numeric.Math.lgamma(x) }
-    #endif
+    // `lgamma` / `logGamma` relocated to swift-numerics (L3) per /platform
+    // [PLAT-ARCH-008c] — see Numerics/Numeric.Math.LogGamma.swift.
 }
 
 // MARK: - Float
@@ -297,15 +290,8 @@ extension Numeric.Math.Accessor where T == Float {
     @inlinable
     public func tgamma(_ x: Float) -> Float { Numeric.Math.tgamma(x) }
 
-    #if canImport(Darwin) || canImport(Glibc) || canImport(Musl)
-    /// Log of absolute value of gamma function.
-    @inlinable
-    public func lgamma(_ x: Float) -> Float { Numeric.Math.lgamma(x) }
-
-    /// Log of absolute value of gamma function (alias for lgamma).
-    @inlinable
-    public func logGamma(_ x: Float) -> Float { Numeric.Math.lgamma(x) }
-    #endif
+    // `lgamma` / `logGamma` relocated to swift-numerics (L3) per /platform
+    // [PLAT-ARCH-008c] — see Numerics/Numeric.Math.LogGamma.swift.
 }
 
 // MARK: - Float16
@@ -446,10 +432,7 @@ extension Numeric.Math.Accessor where T == Float16 {
     @inlinable
     public func tgamma(_ x: Float16) -> Float16 { Numeric.Math.tgamma(x) }
 
-    #if canImport(Darwin) || canImport(Glibc) || canImport(Musl)
-    /// Log of absolute value of gamma function.
-    @inlinable
-    public func lgamma(_ x: Float16) -> Float16 { Numeric.Math.lgamma(x) }
-    #endif
+    // `lgamma` / `logGamma` relocated to swift-numerics (L3) per /platform
+    // [PLAT-ARCH-008c] — see Numerics/Numeric.Math.LogGamma.swift.
 }
 #endif
