@@ -77,7 +77,7 @@ extension Numeric.Math {
     internal static func pow(_ x: Float, _ y: Float) -> Float { shim_powf(x, y) }
 
     @usableFromInline
-    internal static func sqrt(_ x: Float) -> Float { shim_sqrtf(x) }
+    internal static func sqrt(_ x: Float) -> Float { x.squareRoot() }
 
     @usableFromInline
     internal static func cbrt(_ x: Float) -> Float { shim_cbrtf(x) }
@@ -172,7 +172,7 @@ extension Numeric.Math {
     internal static func pow(_ x: Double, _ y: Double) -> Double { shim_pow(x, y) }
 
     @usableFromInline
-    internal static func sqrt(_ x: Double) -> Double { shim_sqrt(x) }
+    internal static func sqrt(_ x: Double) -> Double { x.squareRoot() }
 
     @usableFromInline
     internal static func cbrt(_ x: Double) -> Double { shim_cbrt(x) }
@@ -268,7 +268,7 @@ extension Numeric.Math {
     internal static func pow(_ x: Float16, _ y: Float16) -> Float16 { Float16(shim_powf(Float(x), Float(y))) }
 
     @usableFromInline
-    internal static func sqrt(_ x: Float16) -> Float16 { Float16(shim_sqrtf(Float(x))) }
+    internal static func sqrt(_ x: Float16) -> Float16 { x.squareRoot() }
 
     @usableFromInline
     internal static func cbrt(_ x: Float16) -> Float16 { Float16(shim_cbrtf(Float(x))) }

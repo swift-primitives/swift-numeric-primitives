@@ -103,9 +103,10 @@ SHIM_INLINE float shim_powf(float x, float y) {
     return __builtin_powf(x, y);
 }
 
-SHIM_INLINE float shim_sqrtf(float x) {
-    return __builtin_sqrtf(x);
-}
+// shim_sqrtf removed 2026-04-26 — sqrt is hardware (FSQRT/SQRTSS) on all
+// supported targets. Pure-Swift `Float.squareRoot()` lowers to the same
+// LLVM `llvm.sqrt.f32` intrinsic via `Builtin.int_sqrt_FPIEEE32`. No
+// performance or accuracy difference; one fewer C dependency at L1.
 
 SHIM_INLINE float shim_cbrtf(float x) {
     return __builtin_cbrtf(x);
@@ -226,9 +227,7 @@ SHIM_INLINE double shim_pow(double x, double y) {
     return __builtin_pow(x, y);
 }
 
-SHIM_INLINE double shim_sqrt(double x) {
-    return __builtin_sqrt(x);
-}
+// shim_sqrt removed 2026-04-26 — see shim_sqrtf comment above.
 
 SHIM_INLINE double shim_cbrt(double x) {
     return __builtin_cbrt(x);
