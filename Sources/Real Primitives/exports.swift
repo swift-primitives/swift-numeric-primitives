@@ -10,4 +10,4 @@
 //
 // ===----------------------------------------------------------------------===//
 
-@_exported import Numeric_Primitives
+@_exported import Numeric_Primitives_Core

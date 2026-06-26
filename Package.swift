@@ -1,4 +1,4 @@
-// swift-tools-version: 6.2
+// swift-tools-version: 6.3.1
 
 import PackageDescription
 
@@ -9,17 +9,22 @@ let package = Package(
         .iOS(.v26),
         .tvOS(.v26),
         .watchOS(.v26),
-        .visionOS(.v26),
+        .visionOS(.v26)
     ],
     products: [
         .library(name: "Numeric Primitives", targets: ["Numeric Primitives"]),
+        .library(name: "Numeric Primitives Core", targets: ["Numeric Primitives Core"]),
         .library(name: "Real Primitives", targets: ["Real Primitives"]),
-        .library(name: "Complex Primitives", targets: ["Complex Primitives"]),
+        .library(name: "Numeric Relaxed Primitives", targets: ["Numeric Relaxed Primitives"]),
         .library(name: "Integer Primitives", targets: ["Integer Primitives"]),
+        .library(
+            name: "Numeric Primitives Test Support",
+            targets: ["Numeric Primitives Test Support"]
+        ),
     ],
     dependencies: [
-        .package(path: "../swift-identity-primitives"),
-        .package(path: "../swift-test-support-primitives"),
+        .package(url: "https://github.com/swift-primitives/swift-tagged-primitives.git", branch: "main"),
+        .package(url: "https://github.com/swift-primitives/swift-pair-primitives.git", branch: "main"),
     ],
     targets: [
         // C shims for libm (internal only)
@@ -28,62 +33,94 @@ let package = Package(
             publicHeadersPath: "include"
         ),
 
-        // Core module
+        // MARK: - Core
         .target(
-            name: "Numeric Primitives",
+            name: "Numeric Primitives Core",
             dependencies: [
-                .product(name: "Identity Primitives", package: "swift-identity-primitives"),
+                .product(name: "Tagged Primitives", package: "swift-tagged-primitives"),
+                .product(name: "Pair Primitives", package: "swift-pair-primitives"),
             ]
         ),
 
-        // Real number functions
+        // MARK: - Real
         .target(
             name: "Real Primitives",
-            dependencies: ["Numeric Primitives", "_Shims"]
+            dependencies: ["Numeric Primitives Core", "_Shims"]
         ),
 
-        // Complex numbers
+        // MARK: - Relaxed
+        // Carved out of Real Primitives so that `public import _Shims` no longer
+        // leaks through Real Primitives' interface. Consumers that need
+        // Numeric.Relaxed opt in explicitly via this product.
         .target(
-            name: "Complex Primitives",
-            dependencies: ["Real Primitives"]
+            name: "Numeric Relaxed Primitives",
+            dependencies: ["Numeric Primitives Core", "_Shims"]
         ),
 
-        // Integer utilities
+        // MARK: - Integer
         .target(
             name: "Integer Primitives",
-            dependencies: ["Numeric Primitives"]
+            dependencies: ["Numeric Primitives Core"]
         ),
 
-        // Tests
+        // MARK: - Umbrella
+        .target(
+            name: "Numeric Primitives",
+            dependencies: [
+                "Numeric Primitives Core",
+                "Real Primitives",
+                "Numeric Relaxed Primitives",
+                "Integer Primitives",
+            ]
+        ),
         .testTarget(
             name: "Real Primitives Tests",
             dependencies: [
                 "Real Primitives",
-                .product(name: "Test Support Primitives", package: "swift-test-support-primitives"),
             ]
         ),
         .testTarget(
-            name: "Complex Primitives Tests",
+            name: "Numeric Relaxed Primitives Tests",
             dependencies: [
-                "Complex Primitives",
-                .product(name: "Test Support Primitives", package: "swift-test-support-primitives"),
+                "Numeric Relaxed Primitives",
+                "Numeric Primitives Test Support",
             ]
         ),
         .testTarget(
             name: "Integer Primitives Tests",
             dependencies: [
                 "Integer Primitives",
-                .product(name: "Test Support Primitives", package: "swift-test-support-primitives"),
             ]
+        ),
+
+        // MARK: - Test Support
+        .target(
+            name: "Numeric Primitives Test Support",
+            dependencies: [
+                "Numeric Primitives",
+                .product(name: "Tagged Primitives Test Support", package: "swift-tagged-primitives"),
+            ],
+            path: "Tests/Support"
         ),
     ],
     swiftLanguageModes: [.v6]
 )
 
-for target in package.targets where ![.system, .binary, .plugin].contains(target.type) {
-    target.swiftSettings = (target.swiftSettings ?? []) + [
+for target in package.targets where ![.system, .binary, .plugin, .macro].contains(target.type) {
+    let ecosystem: [SwiftSetting] = [
+        .strictMemorySafety(),
         .enableUpcomingFeature("ExistentialAny"),
         .enableUpcomingFeature("InternalImportsByDefault"),
         .enableUpcomingFeature("MemberImportVisibility"),
+        .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
+        .enableExperimentalFeature("LifetimeDependence"),
+        .enableExperimentalFeature("Lifetimes"),
+        .enableExperimentalFeature("SuppressedAssociatedTypes"),
+        .enableUpcomingFeature("InferIsolatedConformances"),
+        .enableUpcomingFeature("LifetimeDependence"),
     ]
+
+    let package: [SwiftSetting] = []
+
+    target.swiftSettings = (target.swiftSettings ?? []) + ecosystem + package
 }

@@ -1,0 +1,9 @@
+# .github/metadata.yaml
+# Triaged by AI-assisted bulk pass (2026-04-29).
+description: "Numeric types for Swift."
+topics:
+  - primitives
+  - numeric
+homepage: "https://swift-institute.org"
+readme:
+  family: E

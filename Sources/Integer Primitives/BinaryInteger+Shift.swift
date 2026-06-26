@@ -10,4 +10,12 @@
 //
 // ===----------------------------------------------------------------------===//
 
-@_exported import Numeric_Primitives_Core
+import Numeric_Primitives_Core
+
+extension BinaryInteger {
+    /// Accessor for shift operations with rounding.
+    @inlinable
+    public var shifted: Numeric.Integer.Shift<Self> {
+        Numeric.Integer.Shift(self)
+    }
+}

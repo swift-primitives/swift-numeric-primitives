@@ -10,4 +10,8 @@
 //
 // ===----------------------------------------------------------------------===//
 
-@_exported import Numeric_Primitives_Core
+// Re-export Pair (surfaced by Numeric.Sign.Value / Numeric.Ternary.Value)
+@_exported public import Pair_Primitives
+
+// Re-export Tagged from Identity Primitives
+@_exported import struct Tagged_Primitives.Tagged

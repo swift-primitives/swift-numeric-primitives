@@ -1,82 +1,117 @@
-// ===----------------------------------------------------------------------===//
-//
-// This source file is part of the swift-primitives open source project
-//
-// Copyright (c) 2024-2025 Coen ten Thije Boonkkamp and the swift-primitives
-// project authors
-// Licensed under Apache License v2.0
-//
-// See LICENSE for license information
-//
-// ===----------------------------------------------------------------------===//
+// Rotation.Tests.swift
 
 import Testing
+
 @testable import Integer_Primitives
 
-@Suite
-struct RotationTests {
+// MARK: - Numeric.Integer.Rotation Tests (Parallel Namespace per [TEST-004])
 
+@Suite("Numeric.Integer.Rotation")
+struct NumericIntegerRotationTests {
+    @Suite struct Unit {}
+    @Suite struct EdgeCase {}
+    @Suite struct Integration {}
+    @Suite(.serialized) struct Performance {}
+}
+
+// MARK: - Unit Tests
+
+extension NumericIntegerRotationTests.Unit {
     @Test
-    func rotateRight() {
+    func `rotate right by 2`() {
         let value: UInt8 = 0b1100_0011
         let rotated = value.rotation.right(by: 2)
         #expect(rotated == 0b1111_0000)
     }
 
     @Test
-    func rotateLeft() {
+    func `rotate left by 2`() {
         let value: UInt8 = 0b1100_0011
         let rotated = value.rotation.left(by: 2)
         #expect(rotated == 0b0000_1111)
     }
 
     @Test
-    func rotateByZero() {
+    func `rotate right then left returns original`() {
+        let value: UInt32 = 0xDEAD_BEEF
+        let rotated = value.rotation.right(by: 7).rotation.left(by: 7)
+        #expect(rotated == value)
+    }
+}
+
+// MARK: - Edge Case Tests
+
+extension NumericIntegerRotationTests.EdgeCase {
+    @Test
+    func `rotate by zero returns original`() {
         let value: UInt8 = 0b1100_0011
         #expect(value.rotation.right(by: 0) == value)
         #expect(value.rotation.left(by: 0) == value)
     }
 
     @Test
-    func rotateByBitWidth() {
+    func `rotate by bit width returns original`() {
         let value: UInt8 = 0b1100_0011
         #expect(value.rotation.right(by: 8) == value)
         #expect(value.rotation.left(by: 8) == value)
     }
-
-    @Test
-    func rotateRightThenLeft() {
-        let value: UInt32 = 0xDEADBEEF
-        let rotated = value.rotation.right(by: 7).rotation.left(by: 7)
-        #expect(rotated == value)
-    }
 }
 
-@Suite
-struct SaturatingTests {
+// MARK: - Numeric.Integer.Saturating Tests (Parallel Namespace per [TEST-004])
 
+@Suite("Numeric.Integer.Saturating")
+struct NumericIntegerSaturatingTests {
+    @Suite struct Unit {}
+    @Suite struct EdgeCase {}
+    @Suite struct Integration {}
+    @Suite(.serialized) struct Performance {}
+}
+
+// MARK: - Unit Tests
+
+extension NumericIntegerSaturatingTests.Unit {
     @Test
-    func saturatingAdd() {
-        #expect(Int8.max.saturating.add(10) == Int8.max)
+    func `saturating add within bounds`() {
         #expect(Int8(100).saturating.add(10) == 110)
     }
 
     @Test
-    func saturatingSubtract() {
-        #expect(Int8.min.saturating.subtract(10) == Int8.min)
+    func `saturating subtract within bounds`() {
         #expect(Int8(-100).saturating.subtract(10) == -110)
     }
 
     @Test
-    func saturatingMultiply() {
-        #expect(Int8(100).saturating.multiply(by: 10) == Int8.max)
-        #expect(Int8(-100).saturating.multiply(by: 10) == Int8.min)
+    func `saturating multiply within bounds`() {
         #expect(Int8(10).saturating.multiply(by: 5) == 50)
     }
 
     @Test
-    func saturatingNegate() {
-        #expect(Int8.min.saturating.negate() == Int8.max)
+    func `saturating negate within bounds`() {
         #expect(Int8(-50).saturating.negate() == 50)
+    }
+}
+
+// MARK: - Edge Case Tests
+
+extension NumericIntegerSaturatingTests.EdgeCase {
+    @Test
+    func `saturating add clamps at max`() {
+        #expect(Int8.max.saturating.add(10) == Int8.max)
+    }
+
+    @Test
+    func `saturating subtract clamps at min`() {
+        #expect(Int8.min.saturating.subtract(10) == Int8.min)
+    }
+
+    @Test
+    func `saturating multiply clamps at boundaries`() {
+        #expect(Int8(100).saturating.multiply(by: 10) == Int8.max)
+        #expect(Int8(-100).saturating.multiply(by: 10) == Int8.min)
+    }
+
+    @Test
+    func `saturating negate of min clamps at max`() {
+        #expect(Int8.min.saturating.negate() == Int8.max)
     }
 }

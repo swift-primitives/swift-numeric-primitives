@@ -19,7 +19,7 @@ extension Numeric.Integer {
     /// let rotated = value.rotation.right(by: 3)
     /// let shifted = value.rotation.left(by: 5)
     /// ```
-    public struct Rotation<T: FixedWidthInteger>: Sendable where T: Sendable {
+    public struct Rotation<T: FixedWidthInteger> {
         @usableFromInline
         let value: T
 
@@ -29,6 +29,8 @@ extension Numeric.Integer {
         }
     }
 }
+
+extension Numeric.Integer.Rotation: Sendable where T: Sendable {}
 
 // MARK: - Rotation Operations
 
