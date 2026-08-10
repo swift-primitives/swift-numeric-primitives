@@ -10,7 +10,7 @@
 //
 //===----------------------------------------------------------------------===//
 
-// This file exists only to trigger the _Shims module to build.
+// This file exists only to trigger the Numeric Shims module to build.
 // All implementations are header-only inlines in shims.h.
 
 #include "shims.h"
