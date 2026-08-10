@@ -66,11 +66,11 @@ Five library products plus a test-support product, built on `swift-tagged-primit
 | `Numeric Primitives` | `Sources/Numeric Primitives/` | Umbrella — re-exports Core, Real, Relaxed, and Integer. |
 | `Numeric Primitives Core` | `Sources/Numeric Primitives Core/` | Core namespace: `Numeric.Sign`, `Numeric.Ternary`, `Numeric.Rounding`, `Numeric.Quantized`, `Numeric.Math`, and the `Transcendental` protocol. |
 | `Real Primitives` | `Sources/Real Primitives/` | The `.math` accessor and `Transcendental` conformances on `Double` / `Float` / `Float16`, plus `Numeric.Augmented` (error-free transforms) and `Numeric.Fraction`. |
-| `Numeric Relaxed Primitives` | `Sources/Numeric Relaxed Primitives/` | `Numeric.Relaxed` fast/fused arithmetic (`sum`, `product`, `multiplyAdd`). Carved out so `_Shims` does not leak through the Real interface. |
+| `Numeric Relaxed Primitives` | `Sources/Numeric Relaxed Primitives/` | `Numeric.Relaxed` fast/fused arithmetic (`sum`, `product`, `multiplyAdd`). Carved out so `Numeric Shims` does not leak through the Real interface. |
 | `Integer Primitives` | `Sources/Integer Primitives/` | Integer `division` (all rounding modes), `gcd` / `lcm`, rotation, shift, saturating arithmetic, and the optional-producing `+?` operators. |
 | `Numeric Primitives Test Support` | `Tests/Support/` | Re-exports the umbrella for test consumers. |
 
-An internal `_Shims` C target wraps the platform `libm` symbols; it is not part of any public product's interface.
+An internal `Numeric Shims` C target wraps the platform `libm` symbols; it is not part of any public product's interface.
 
 Foundation-free.
 

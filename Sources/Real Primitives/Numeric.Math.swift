@@ -11,7 +11,7 @@
 // ===----------------------------------------------------------------------===//
 
 public import Numeric_Primitives_Core
-import _Shims
+import Numeric_Shims
 
 // MARK: - Float
 
