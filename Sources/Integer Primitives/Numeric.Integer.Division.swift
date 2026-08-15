@@ -90,7 +90,10 @@ extension Numeric.Integer.Division {
     ///   - rounding: The rounding mode (default `.down` for floor division).
     /// - Returns: A tuple of (quotient, remainder).
     @inlinable
-    public func parts(by divisor: T, rounding: Numeric.Rounding = .down) -> (quotient: T, remainder: T) {
+    public func parts(
+        by divisor: T,
+        rounding: Numeric.Rounding = .down
+    ) -> (quotient: T, remainder: T) {
         let q = self.callAsFunction(by: divisor, rounding: rounding)
         let r = value - q * divisor
         return (q, r)

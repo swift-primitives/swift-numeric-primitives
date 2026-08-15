@@ -64,7 +64,10 @@ extension Numeric.Ternary {
 
     /// Multiplies two ternary values (standard integer multiplication).
     @inlinable
-    public static func multiplying(_ lhs: Numeric.Ternary, _ rhs: Numeric.Ternary) -> Numeric.Ternary {
+    public static func multiplying(
+        _ lhs: Numeric.Ternary,
+        _ rhs: Numeric.Ternary
+    ) -> Numeric.Ternary {
         Numeric.Ternary(rawValue: lhs.rawValue * rhs.rawValue) ?? .zero
     }
 
