@@ -205,7 +205,7 @@ extension Numeric.Math {
 
 // MARK: - Float16
 
-// swiftlint:disable:next l1_no_platform_conditionals - reason: Float16 libm shims (shim_expf etc.) resolve only on the listed platform/arch combinations; the extension cannot compile where Float16 hardware math is absent.
+// WHY: Float16 libm shims (shim_expf etc.) resolve only on the listed platform/arch combinations; the extension cannot compile where Float16 hardware math is absent.
 #if os(iOS) || os(tvOS) || os(watchOS) || os(visionOS) || ((os(macOS) || targetEnvironment(macCatalyst)) && arch(arm64))
     extension Numeric.Math {
         @usableFromInline
@@ -245,7 +245,9 @@ extension Numeric.Math {
         internal static func atan(_ x: Float16) -> Float16 { Float16(shim_atanf(Float(x))) }
 
         @usableFromInline
-        internal static func atan2(_ y: Float16, _ x: Float16) -> Float16 { Float16(shim_atan2f(Float(y), Float(x))) }
+        internal static func atan2(_ y: Float16, _ x: Float16) -> Float16 {
+            Float16(shim_atan2f(Float(y), Float(x)))
+        }
 
         @usableFromInline
         internal static func sinh(_ x: Float16) -> Float16 { Float16(shim_sinhf(Float(x))) }
@@ -266,7 +268,9 @@ extension Numeric.Math {
         internal static func atanh(_ x: Float16) -> Float16 { Float16(shim_atanhf(Float(x))) }
 
         @usableFromInline
-        internal static func pow(_ x: Float16, _ y: Float16) -> Float16 { Float16(shim_powf(Float(x), Float(y))) }
+        internal static func pow(_ x: Float16, _ y: Float16) -> Float16 {
+            Float16(shim_powf(Float(x), Float(y)))
+        }
 
         @usableFromInline
         internal static func sqrt(_ x: Float16) -> Float16 { x.squareRoot() }
@@ -278,11 +282,16 @@ extension Numeric.Math {
         internal static func root(_ x: Float16, _ n: Int) -> Float16 {
             guard x >= 0 || n % 2 != 0 else { return .nan }
             if n == 3 { return Float16(shim_cbrtf(Float(x))) }
-            return Float16(signOf: x, magnitudeOf: Float16(shim_powf(Float(x.magnitude), 1 / Float(n))))
+            return Float16(
+                signOf: x,
+                magnitudeOf: Float16(shim_powf(Float(x.magnitude), 1 / Float(n)))
+            )
         }
 
         @usableFromInline
-        internal static func hypot(_ x: Float16, _ y: Float16) -> Float16 { Float16(shim_hypotf(Float(x), Float(y))) }
+        internal static func hypot(_ x: Float16, _ y: Float16) -> Float16 {
+            Float16(shim_hypotf(Float(x), Float(y)))
+        }
 
         @usableFromInline
         internal static func exp2(_ x: Float16) -> Float16 { Float16(shim_exp2f(Float(x))) }

@@ -91,14 +91,13 @@ extension Numeric.Integer.Shift {
         }
 
         // Happy case: 0 < count < bitWidth
-        // reason: Bitmask construction `(1 << N) − 1` — the canonical idiom
+        // WHY: Bitmask construction `(1 << N) − 1` — the canonical idiom
         // for "low N bits set"; this is bit-pattern math, NOT array-index
         // length-minus-one. `count: Int` is a stdlib shift-amount parameter
         // (validated 0 < count < bitWidth at line 78). The R1 rule's intent
         // (don't compute last-array-index inline) doesn't apply at this
         // bitmask construction site; parens are kept for explicit
         // BitwiseShift > Addition precedence readability.
-        // swiftlint:disable:next cardinal_count_minus_one_evasion
         let mask = (T.Magnitude(1) << count) - 1
         let lost = T.Magnitude(truncatingIfNeeded: value) & mask
         let floor = value >> count

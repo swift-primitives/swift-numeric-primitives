@@ -377,7 +377,8 @@ extension `Optionator Tests`.Integration {
 
     @Test
     func `image buffer size calculation`() {
-        func calculateBufferSize(width: UInt32?, height: UInt32?, bytesPerPixel: UInt32?) -> UInt32? {
+        func calculateBufferSize(width: UInt32?, height: UInt32?, bytesPerPixel: UInt32?) -> UInt32?
+        {
             width *? height *? bytesPerPixel
         }
 

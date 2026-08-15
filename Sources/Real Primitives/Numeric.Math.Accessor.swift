@@ -296,7 +296,7 @@ extension Numeric.Math.Accessor where T == Float {
 
 // MARK: - Float16
 
-// swiftlint:disable:next l1_no_platform_conditionals - reason: Float16 math accessor depends on the Float16 libm shims available only on the listed platform/arch combinations; the extension cannot compile where Float16 hardware math is absent.
+// WHY: Float16 math accessor depends on the Float16 libm shims available only on the listed platform/arch combinations; the extension cannot compile where Float16 hardware math is absent.
 #if os(iOS) || os(tvOS) || os(watchOS) || os(visionOS) || ((os(macOS) || targetEnvironment(macCatalyst)) && arch(arm64))
     extension Float16 {
         /// Zero-sized token providing math operations.

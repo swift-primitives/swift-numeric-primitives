@@ -28,7 +28,9 @@ extension Double: Numeric.Transcendental {
     /// Arctangent of `x`, in radians.
     @inlinable public static func _atan(_ x: Double) -> Double { Numeric.Math.atan(x) }
     /// Two-argument arctangent of `y / x`, in radians.
-    @inlinable public static func _atan2(_ y: Double, _ x: Double) -> Double { Numeric.Math.atan2(y, x) }
+    @inlinable public static func _atan2(_ y: Double, _ x: Double) -> Double {
+        Numeric.Math.atan2(y, x)
+    }
     /// Hyperbolic sine of `x`.
     @inlinable public static func _sinh(_ x: Double) -> Double { Numeric.Math.sinh(x) }
     /// Hyperbolic cosine of `x`.
@@ -56,13 +58,17 @@ extension Double: Numeric.Transcendental {
     /// Base-10 logarithm, log10(x).
     @inlinable public static func _log10(_ x: Double) -> Double { Numeric.Math.log10(x) }
     /// `x` raised to the power `y`.
-    @inlinable public static func _pow(_ x: Double, _ y: Double) -> Double { Numeric.Math.pow(x, y) }
+    @inlinable public static func _pow(_ x: Double, _ y: Double) -> Double {
+        Numeric.Math.pow(x, y)
+    }
     /// Square root of `x`.
     @inlinable public static func _sqrt(_ x: Double) -> Double { Numeric.Math.sqrt(x) }
     /// Cube root of `x`.
     @inlinable public static func _cbrt(_ x: Double) -> Double { Numeric.Math.cbrt(x) }
     /// Euclidean distance, sqrt(x² + y²), computed without undue overflow.
-    @inlinable public static func _hypot(_ x: Double, _ y: Double) -> Double { Numeric.Math.hypot(x, y) }
+    @inlinable public static func _hypot(_ x: Double, _ y: Double) -> Double {
+        Numeric.Math.hypot(x, y)
+    }
 }
 
 // MARK: - Float Conformance
@@ -81,7 +87,9 @@ extension Float: Numeric.Transcendental {
     /// Arctangent of `x`, in radians.
     @inlinable public static func _atan(_ x: Float) -> Float { Numeric.Math.atan(x) }
     /// Two-argument arctangent of `y / x`, in radians.
-    @inlinable public static func _atan2(_ y: Float, _ x: Float) -> Float { Numeric.Math.atan2(y, x) }
+    @inlinable public static func _atan2(_ y: Float, _ x: Float) -> Float {
+        Numeric.Math.atan2(y, x)
+    }
     /// Hyperbolic sine of `x`.
     @inlinable public static func _sinh(_ x: Float) -> Float { Numeric.Math.sinh(x) }
     /// Hyperbolic cosine of `x`.
@@ -115,12 +123,14 @@ extension Float: Numeric.Transcendental {
     /// Cube root of `x`.
     @inlinable public static func _cbrt(_ x: Float) -> Float { Numeric.Math.cbrt(x) }
     /// Euclidean distance, sqrt(x² + y²), computed without undue overflow.
-    @inlinable public static func _hypot(_ x: Float, _ y: Float) -> Float { Numeric.Math.hypot(x, y) }
+    @inlinable public static func _hypot(_ x: Float, _ y: Float) -> Float {
+        Numeric.Math.hypot(x, y)
+    }
 }
 
 // MARK: - Float16 Conformance (Platform-Conditional)
 
-// swiftlint:disable:next l1_no_platform_conditionals - reason: Float16 transcendentals require the libm symbols present only on the listed platform/arch combinations; the conformance cannot compile where the underlying Float16 math is unavailable.
+// WHY: Float16 transcendentals require the libm symbols present only on the listed platform/arch combinations; the conformance cannot compile where the underlying Float16 math is unavailable.
 #if os(iOS) || os(tvOS) || os(watchOS) || os(visionOS) || ((os(macOS) || targetEnvironment(macCatalyst)) && arch(arm64))
     extension Float16: Numeric.Transcendental {
         /// Sine of `x` (radians).
@@ -136,7 +146,9 @@ extension Float: Numeric.Transcendental {
         /// Arctangent of `x`, in radians.
         @inlinable public static func _atan(_ x: Float16) -> Float16 { Numeric.Math.atan(x) }
         /// Two-argument arctangent of `y / x`, in radians.
-        @inlinable public static func _atan2(_ y: Float16, _ x: Float16) -> Float16 { Numeric.Math.atan2(y, x) }
+        @inlinable public static func _atan2(_ y: Float16, _ x: Float16) -> Float16 {
+            Numeric.Math.atan2(y, x)
+        }
         /// Hyperbolic sine of `x`.
         @inlinable public static func _sinh(_ x: Float16) -> Float16 { Numeric.Math.sinh(x) }
         /// Hyperbolic cosine of `x`.
@@ -164,12 +176,16 @@ extension Float: Numeric.Transcendental {
         /// Base-10 logarithm, log10(x).
         @inlinable public static func _log10(_ x: Float16) -> Float16 { Numeric.Math.log10(x) }
         /// `x` raised to the power `y`.
-        @inlinable public static func _pow(_ x: Float16, _ y: Float16) -> Float16 { Numeric.Math.pow(x, y) }
+        @inlinable public static func _pow(_ x: Float16, _ y: Float16) -> Float16 {
+            Numeric.Math.pow(x, y)
+        }
         /// Square root of `x`.
         @inlinable public static func _sqrt(_ x: Float16) -> Float16 { Numeric.Math.sqrt(x) }
         /// Cube root of `x`.
         @inlinable public static func _cbrt(_ x: Float16) -> Float16 { Numeric.Math.cbrt(x) }
         /// Euclidean distance, sqrt(x² + y²), computed without undue overflow.
-        @inlinable public static func _hypot(_ x: Float16, _ y: Float16) -> Float16 { Numeric.Math.hypot(x, y) }
+        @inlinable public static func _hypot(_ x: Float16, _ y: Float16) -> Float16 {
+            Numeric.Math.hypot(x, y)
+        }
     }
 #endif
