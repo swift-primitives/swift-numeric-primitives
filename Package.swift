@@ -1,15 +1,15 @@
-// swift-tools-version: 6.3.3
+// swift-tools-version: 6.4
 
 import PackageDescription
 
 let package = Package(
     name: "swift-numeric-primitives",
     platforms: [
-        .macOS("27"),
-        .iOS("27"),
-        .tvOS("27"),
-        .watchOS("27"),
-        .visionOS("27")
+        .macOS(.v27),
+        .iOS(.v27),
+        .tvOS(.v27),
+        .watchOS(.v27),
+        .visionOS(.v27),
     ],
     products: [
         .library(name: "Numeric Primitives", targets: ["Numeric Primitives"]),
@@ -23,8 +23,14 @@ let package = Package(
         ),
     ],
     dependencies: [
-        .package(url: "https://github.com/swift-primitives/swift-tagged-primitives.git", branch: "main"),
-        .package(url: "https://github.com/swift-primitives/swift-pair-primitives.git", branch: "main"),
+        .package(
+            url: "https://github.com/swift-primitives/swift-tagged-primitives.git",
+            branch: "main"
+        ),
+        .package(
+            url: "https://github.com/swift-primitives/swift-pair-primitives.git",
+            branch: "main"
+        ),
     ],
     targets: [
         // C shims for libm (internal only)
@@ -76,7 +82,7 @@ let package = Package(
         .testTarget(
             name: "Real Primitives Tests",
             dependencies: [
-                "Real Primitives",
+                "Real Primitives"
             ]
         ),
         .testTarget(
@@ -89,7 +95,7 @@ let package = Package(
         .testTarget(
             name: "Integer Primitives Tests",
             dependencies: [
-                "Integer Primitives",
+                "Integer Primitives"
             ]
         ),
 
@@ -98,7 +104,10 @@ let package = Package(
             name: "Numeric Primitives Test Support",
             dependencies: [
                 "Numeric Primitives",
-                .product(name: "Tagged Primitives Test Support", package: "swift-tagged-primitives"),
+                .product(
+                    name: "Tagged Primitives Test Support",
+                    package: "swift-tagged-primitives"
+                ),
             ],
             path: "Tests/Support"
         ),
