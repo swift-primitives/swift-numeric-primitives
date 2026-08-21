@@ -1,9 +1,5 @@
-// Shift.Tests.swift
-
 import Integer_Primitives
 import Testing
-
-// MARK: - Test Suite Declaration (Parallel Namespace per [TEST-004])
 
 @Suite("Numeric.Integer.Shift")
 struct NumericIntegerShiftTests {
@@ -12,8 +8,6 @@ struct NumericIntegerShiftTests {
     @Suite struct Integration {}
     @Suite(.serialized) struct Performance {}
 }
-
-// MARK: - Unit Tests
 
 extension NumericIntegerShiftTests.Unit {
     @Test
@@ -38,84 +32,82 @@ extension NumericIntegerShiftTests.Unit {
 
     @Test
     func `round down floors toward negative infinity`() {
-        #expect(3.shifted.right(by: 1, rounding: .down) == 1)  // 3/2 = 1.5 → 1
-        #expect(7.shifted.right(by: 2, rounding: .down) == 1)  // 7/4 = 1.75 → 1
-        #expect((-3).shifted.right(by: 1, rounding: .down) == -2)  // -3/2 = -1.5 → -2
+        #expect(3.shifted.right(by: 1, rounding: .down) == 1)
+        #expect(7.shifted.right(by: 2, rounding: .down) == 1)
+        #expect((-3).shifted.right(by: 1, rounding: .down) == -2)
     }
 
     @Test
     func `round up ceils toward positive infinity`() {
-        #expect(3.shifted.right(by: 1, rounding: .up) == 2)  // 3/2 = 1.5 → 2
-        #expect(7.shifted.right(by: 2, rounding: .up) == 2)  // 7/4 = 1.75 → 2
-        #expect((-3).shifted.right(by: 1, rounding: .up) == -1)  // -3/2 = -1.5 → -1
+        #expect(3.shifted.right(by: 1, rounding: .up) == 2)
+        #expect(7.shifted.right(by: 2, rounding: .up) == 2)
+        #expect((-3).shifted.right(by: 1, rounding: .up) == -1)
     }
 
     @Test
     func `round toward zero truncates`() {
-        #expect(3.shifted.right(by: 1, rounding: .zero) == 1)  // 3/2 = 1.5 → 1
-        #expect((-3).shifted.right(by: 1, rounding: .zero) == -1)  // -3/2 = -1.5 → -1
+        #expect(3.shifted.right(by: 1, rounding: .zero) == 1)
+        #expect((-3).shifted.right(by: 1, rounding: .zero) == -1)
     }
 
     @Test
     func `round away from zero`() {
-        #expect(3.shifted.right(by: 1, rounding: .away) == 2)  // 3/2 = 1.5 → 2
-        #expect((-3).shifted.right(by: 1, rounding: .away) == -2)  // -3/2 = -1.5 → -2
+        #expect(3.shifted.right(by: 1, rounding: .away) == 2)
+        #expect((-3).shifted.right(by: 1, rounding: .away) == -2)
     }
 
     @Test
     func `nearest or even rounds ties to even`() {
-        #expect(3.shifted.right(by: 1, rounding: .even) == 2)  // 3/2 = 1.5 → 2 (even)
-        #expect(5.shifted.right(by: 1, rounding: .even) == 2)  // 5/2 = 2.5 → 2 (even)
-        #expect(7.shifted.right(by: 1, rounding: .even) == 4)  // 7/2 = 3.5 → 4 (even)
+        #expect(3.shifted.right(by: 1, rounding: .even) == 2)
+        #expect(5.shifted.right(by: 1, rounding: .even) == 2)
+        #expect(7.shifted.right(by: 1, rounding: .even) == 4)
     }
 
     @Test
     func `nearest or up rounds ties up`() {
-        #expect(3.shifted.right(by: 1, rounding: .nearest(.up)) == 2)  // 3/2 = 1.5 → 2
-        #expect(5.shifted.right(by: 1, rounding: .nearest(.up)) == 3)  // 5/2 = 2.5 → 3
+        #expect(3.shifted.right(by: 1, rounding: .nearest(.up)) == 2)
+        #expect(5.shifted.right(by: 1, rounding: .nearest(.up)) == 3)
     }
 
     @Test
     func `nearest or down rounds ties down`() {
-        #expect(3.shifted.right(by: 1, rounding: .nearest(.down)) == 1)  // 3/2 = 1.5 → 1
-        #expect(5.shifted.right(by: 1, rounding: .nearest(.down)) == 2)  // 5/2 = 2.5 → 2
+        #expect(3.shifted.right(by: 1, rounding: .nearest(.down)) == 1)
+        #expect(5.shifted.right(by: 1, rounding: .nearest(.down)) == 2)
     }
 
     @Test
     func `nearest or away rounds ties away from zero`() {
-        #expect(3.shifted.right(by: 1, rounding: .nearest(.away)) == 2)  // 3/2 = 1.5 → 2
-        #expect((-3).shifted.right(by: 1, rounding: .nearest(.away)) == -2)  // -3/2 = -1.5 → -2
+        #expect(3.shifted.right(by: 1, rounding: .nearest(.away)) == 2)
+        #expect((-3).shifted.right(by: 1, rounding: .nearest(.away)) == -2)
     }
 
     @Test
     func `nearest or zero rounds ties toward zero`() {
-        #expect(3.shifted.right(by: 1, rounding: .nearest(.zero)) == 1)  // 3/2 = 1.5 → 1
-        #expect((-3).shifted.right(by: 1, rounding: .nearest(.zero)) == -1)  // -3/2 = -1.5 → -1
+        #expect(3.shifted.right(by: 1, rounding: .nearest(.zero)) == 1)
+        #expect((-3).shifted.right(by: 1, rounding: .nearest(.zero)) == -1)
     }
 
     @Test
     func `non-tie values round to nearest`() {
-        #expect(7.shifted.right(by: 2, rounding: .even) == 2)  // 7/4 = 1.75 → 2
+        #expect(7.shifted.right(by: 2, rounding: .even) == 2)
         #expect(7.shifted.right(by: 2, rounding: .nearest(.up)) == 2)
         #expect(7.shifted.right(by: 2, rounding: .nearest(.down)) == 2)
     }
 
     @Test
     func `round to odd`() {
-        #expect(4.shifted.right(by: 1, rounding: .odd) == 2)  // 4/2 = 2 (exact)
-        #expect(3.shifted.right(by: 1, rounding: .odd) == 1)  // 3/2 = 1.5 → 1 (odd)
-        #expect(6.shifted.right(by: 1, rounding: .odd) == 3)  // 6/2 = 3 (exact)
-        #expect(5.shifted.right(by: 1, rounding: .odd) == 3)  // 5/2 = 2.5 → 3 (odd)
+        #expect(4.shifted.right(by: 1, rounding: .odd) == 2)
+        #expect(3.shifted.right(by: 1, rounding: .odd) == 1)
+        #expect(6.shifted.right(by: 1, rounding: .odd) == 3)
+        #expect(5.shifted.right(by: 1, rounding: .odd) == 3)
     }
 
     @Test
     func `exact shift requires no rounding`() {
-        #expect(4.shifted.right(by: 2, rounding: .exact) == 1)  // 4/4 = 1 (exact)
-        #expect(8.shifted.right(by: 1, rounding: .exact) == 4)  // 8/2 = 4 (exact)
+        #expect(4.shifted.right(by: 2, rounding: .exact) == 1)
+        #expect(8.shifted.right(by: 1, rounding: .exact) == 4)
     }
 }
-
-// MARK: - Edge Case Tests
 
 extension NumericIntegerShiftTests.EdgeCase {
     @Test
@@ -141,8 +133,6 @@ extension NumericIntegerShiftTests.EdgeCase {
         #expect(value.shifted.right(by: countUInt) == 3)
     }
 }
-
-// MARK: - Numeric.Rounding Tests (Parallel Namespace per [TEST-004])
 
 @Suite("Numeric.Rounding")
 struct NumericRoundingTests {
@@ -177,9 +167,9 @@ extension NumericRoundingTests.Unit {
 
     @Test
     func `odd rounding`() {
-        #expect(2.0.rounding(.odd) == 2.0)  // exact, no change
-        #expect(2.5.rounding(.odd) == 3.0)  // rounds to odd
-        #expect(3.5.rounding(.odd) == 3.0)  // rounds to odd
+        #expect(2.0.rounding(.odd) == 2.0)
+        #expect(2.5.rounding(.odd) == 3.0)
+        #expect(3.5.rounding(.odd) == 3.0)
     }
 
     @Test

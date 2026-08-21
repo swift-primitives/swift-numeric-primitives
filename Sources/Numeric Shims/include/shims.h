@@ -1,15 +1,3 @@
-//===--- shims.h - Numeric primitives libm shims ----------------*- C -*-===//
-//
-// This source file is part of the swift-primitives open source project
-//
-// Copyright (c) 2024-2025 Coen ten Thije Boonkkamp and the swift-primitives
-// project authors
-// Licensed under Apache License v2.0
-//
-// See LICENSE for license information
-//
-//===----------------------------------------------------------------------===//
-
 #ifndef NUMERIC_PRIMITIVES_SHIMS_H
 #define NUMERIC_PRIMITIVES_SHIMS_H
 
@@ -18,10 +6,6 @@ extern "C" {
 #endif
 
 #define SHIM_INLINE static inline __attribute__((__always_inline__))
-
-// ===----------------------------------------------------------------------===//
-// MARK: - Float shims
-// ===----------------------------------------------------------------------===//
 
 SHIM_INLINE float shim_expf(float x) {
     return __builtin_expf(x);
@@ -103,11 +87,6 @@ SHIM_INLINE float shim_powf(float x, float y) {
     return __builtin_powf(x, y);
 }
 
-// shim_sqrtf removed 2026-04-26 — sqrt is hardware (FSQRT/SQRTSS) on all
-// supported targets. Pure-Swift `Float.squareRoot()` lowers to the same
-// LLVM `llvm.sqrt.f32` intrinsic via `Builtin.int_sqrt_FPIEEE32`. No
-// performance or accuracy difference; one fewer C dependency at L1.
-
 SHIM_INLINE float shim_cbrtf(float x) {
     return __builtin_cbrtf(x);
 }
@@ -138,14 +117,6 @@ SHIM_INLINE float shim_erfcf(float x) {
 SHIM_INLINE float shim_tgammaf(float x) {
     return __builtin_tgammaf(x);
 }
-
-// shim_lgammaf removed 2026-04-26 — lgamma relocated to L3 swift-numerics
-// per /platform [PLAT-ARCH-008c]. Backed by L2 swift-iso-9899's libm
-// bindings (`ISO_9899.Math.lgamma`).
-
-// ===----------------------------------------------------------------------===//
-// MARK: - Double shims
-// ===----------------------------------------------------------------------===//
 
 SHIM_INLINE double shim_exp(double x) {
     return __builtin_exp(x);
@@ -227,8 +198,6 @@ SHIM_INLINE double shim_pow(double x, double y) {
     return __builtin_pow(x, y);
 }
 
-// shim_sqrt removed 2026-04-26 — see shim_sqrtf comment above.
-
 SHIM_INLINE double shim_cbrt(double x) {
     return __builtin_cbrt(x);
 }
@@ -252,14 +221,6 @@ SHIM_INLINE double shim_erfc(double x) {
 SHIM_INLINE double shim_tgamma(double x) {
     return __builtin_tgamma(x);
 }
-
-// shim_lgamma removed 2026-04-26 — lgamma relocated to L3 swift-numerics
-// per /platform [PLAT-ARCH-008c]. Backed by L2 swift-iso-9899's libm
-// bindings (`ISO_9899.Math.lgamma`).
-
-// ===----------------------------------------------------------------------===//
-// MARK: - Float80 shims (x86 only, non-Windows)
-// ===----------------------------------------------------------------------===//
 
 #if !defined(_WIN32) && (defined(__i386__) || defined(__x86_64__))
 
@@ -371,33 +332,25 @@ SHIM_INLINE long double shim_tgammal(long double x) {
     return __builtin_tgammal(x);
 }
 
-#endif // Float80
-
-// ===----------------------------------------------------------------------===//
-// MARK: - Relaxed arithmetic (allows reassociation and FMA formation)
-// ===----------------------------------------------------------------------===//
+#endif
 
 #define SHIM_RELAX_FP _Pragma("clang fp reassociate(on) contract(fast)")
 
-/// Float addition with reassociation and FMA formation permitted.
 SHIM_INLINE float shim_relaxed_addf(float a, float b) {
     SHIM_RELAX_FP
     return a + b;
 }
 
-/// Float multiplication with reassociation and FMA formation permitted.
 SHIM_INLINE float shim_relaxed_mulf(float a, float b) {
     SHIM_RELAX_FP
     return a * b;
 }
 
-/// Double addition with reassociation and FMA formation permitted.
 SHIM_INLINE double shim_relaxed_add(double a, double b) {
     SHIM_RELAX_FP
     return a + b;
 }
 
-/// Double multiplication with reassociation and FMA formation permitted.
 SHIM_INLINE double shim_relaxed_mul(double a, double b) {
     SHIM_RELAX_FP
     return a * b;
@@ -405,19 +358,17 @@ SHIM_INLINE double shim_relaxed_mul(double a, double b) {
 
 #if !defined(_WIN32) && (defined(__i386__) || defined(__x86_64__))
 
-/// Float80 addition with reassociation and FMA formation permitted.
 SHIM_INLINE long double shim_relaxed_addl(long double a, long double b) {
     SHIM_RELAX_FP
     return a + b;
 }
 
-/// Float80 multiplication with reassociation and FMA formation permitted.
 SHIM_INLINE long double shim_relaxed_mull(long double a, long double b) {
     SHIM_RELAX_FP
     return a * b;
 }
 
-#endif // Float80 relaxed
+#endif
 
 #undef SHIM_RELAX_FP
 
@@ -427,4 +378,4 @@ SHIM_INLINE long double shim_relaxed_mull(long double a, long double b) {
 }
 #endif
 
-#endif // NUMERIC_PRIMITIVES_SHIMS_H
+#endif

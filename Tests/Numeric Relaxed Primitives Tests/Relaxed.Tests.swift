@@ -1,9 +1,5 @@
-// Relaxed.Tests.swift
-
 import Numeric_Primitives_Test_Support
 import Testing
-
-// MARK: - Numeric.Relaxed Tests (Parallel Namespace per [TEST-004])
 
 @Suite("Numeric.Relaxed")
 struct NumericRelaxedTests {
@@ -12,8 +8,6 @@ struct NumericRelaxedTests {
     @Suite struct Integration {}
     @Suite(.serialized) struct Performance {}
 }
-
-// MARK: - Unit Tests
 
 extension NumericRelaxedTests.Unit {
     @Test
@@ -97,8 +91,6 @@ extension NumericRelaxedTests.Unit {
     }
 }
 
-// MARK: - Edge Case Tests
-
 extension NumericRelaxedTests.EdgeCase {
     @Test
     func `infinity handling`() {
@@ -120,8 +112,6 @@ extension NumericRelaxedTests.EdgeCase {
         #expect(result.sign == .minus)
     }
 }
-
-// MARK: - Integration Tests
 
 extension NumericRelaxedTests.Integration {
     @Test

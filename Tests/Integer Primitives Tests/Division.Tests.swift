@@ -1,10 +1,6 @@
-// Division.Tests.swift
-
 import Testing
 
 @testable import Integer_Primitives
-
-// MARK: - Test Suite Declaration (Parallel Namespace per [TEST-004])
 
 @Suite("Numeric.Integer.Division")
 struct NumericIntegerDivisionTests {
@@ -13,8 +9,6 @@ struct NumericIntegerDivisionTests {
     @Suite struct Integration {}
     @Suite(.serialized) struct Performance {}
 }
-
-// MARK: - Unit Tests
 
 extension NumericIntegerDivisionTests.Unit {
     @Test
@@ -45,13 +39,11 @@ extension NumericIntegerDivisionTests.Unit {
 
     @Test
     func `bankers rounding ties to even`() {
-        #expect(15.division(by: 10, rounding: .even) == 2)  // 1.5 → 2 (even)
-        #expect(25.division(by: 10, rounding: .even) == 2)  // 2.5 → 2 (even)
-        #expect(35.division(by: 10, rounding: .even) == 4)  // 3.5 → 4 (even)
+        #expect(15.division(by: 10, rounding: .even) == 2)
+        #expect(25.division(by: 10, rounding: .even) == 2)
+        #expect(35.division(by: 10, rounding: .even) == 4)
     }
 }
-
-// MARK: - Edge Case Tests
 
 extension NumericIntegerDivisionTests.EdgeCase {
     @Test

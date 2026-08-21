@@ -1,16 +1,7 @@
-// Optionator Tests.swift
-// swift-numeric-primitives
-//
-// Tests for optional-producing arithmetic operators.
-
 import Testing
 
 @testable import Integer_Primitives
 
-// MARK: - Test Suites
-
-/// Tests for Optionator - uses parallel namespace pattern
-/// since this tests global operators.
 @Suite
 struct `Optionator Tests` {
     @Suite struct Unit {}
@@ -18,8 +9,6 @@ struct `Optionator Tests` {
     @Suite struct Integration {}
     @Suite(.serialized) struct Performance {}
 }
-
-// MARK: - Unit Tests - Addition
 
 extension `Optionator Tests`.Unit {
 
@@ -176,8 +165,6 @@ extension `Optionator Tests`.Unit {
     }
 }
 
-// MARK: - Edge Case Tests
-
 extension `Optionator Tests`.`Edge Case` {
 
     @Test
@@ -212,7 +199,7 @@ extension `Optionator Tests`.`Edge Case` {
     func `addition with UInt8 returns nil on overflow`() {
         let c: UInt8? = 200
         let d: UInt8? = 56
-        #expect(c +? d == nil)  // 256 overflows
+        #expect(c +? d == nil)
     }
 
     @Test
@@ -284,7 +271,7 @@ extension `Optionator Tests`.`Edge Case` {
     func `Int.min divided by -1 returns nil`() {
         let a: Int? = Int.min
         let b: Int? = -1
-        #expect(a /? b == nil)  // Would overflow
+        #expect(a /? b == nil)
     }
 
     @Test
@@ -330,8 +317,8 @@ extension `Optionator Tests`.`Edge Case` {
     @Test
     func `nil propagates through assignments`() {
         var a: Int? = Int.max
-        a +?= 1  // Overflow, becomes nil
-        a +?= 5  // Still nil
+        a +?= 1
+        a +?= 5
         #expect(a == nil)
     }
 
@@ -370,8 +357,6 @@ extension `Optionator Tests`.`Edge Case` {
         #expect(start ...? end == nil)
     }
 }
-
-// MARK: - Integration Tests
 
 extension `Optionator Tests`.Integration {
 

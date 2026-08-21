@@ -1,9 +1,5 @@
-// Augmented.Tests.swift
-
 import Real_Primitives
 import Testing
-
-// MARK: - Numeric.Augmented Tests (Parallel Namespace per [TEST-004])
 
 @Suite("Numeric.Augmented")
 struct NumericAugmentedTests {
@@ -12,8 +8,6 @@ struct NumericAugmentedTests {
     @Suite struct Integration {}
     @Suite(.serialized) struct Performance {}
 }
-
-// MARK: - Unit Tests
 
 extension NumericAugmentedTests.Unit {
     @Test
@@ -105,8 +99,6 @@ extension NumericAugmentedTests.Unit {
     }
 }
 
-// MARK: - Edge Case Tests
-
 extension NumericAugmentedTests.EdgeCase {
     @Test
     func `infinity handling in sum`() {
@@ -154,8 +146,6 @@ extension NumericAugmentedTests.EdgeCase {
     }
 }
 
-// MARK: - Integration Tests
-
 extension NumericAugmentedTests.Integration {
     @Test
     func `compensated sum captures lost precision`() {
@@ -163,7 +153,7 @@ extension NumericAugmentedTests.Integration {
         let small = 1.0
 
         let naiveSum = big + small
-        #expect(naiveSum == big)  // 1.0 is lost
+        #expect(naiveSum == big)
 
         let (head, tail) = Numeric.Augmented.sum(big, small)
         #expect(head == big)

@@ -33,13 +33,12 @@ let package = Package(
         ),
     ],
     targets: [
-        // C shims for libm (internal only)
+
         .target(
             name: "Numeric Shims",
             publicHeadersPath: "include"
         ),
 
-        // MARK: - Core
         .target(
             name: "Numeric Primitives Core",
             dependencies: [
@@ -48,28 +47,21 @@ let package = Package(
             ]
         ),
 
-        // MARK: - Real
         .target(
             name: "Real Primitives",
             dependencies: ["Numeric Primitives Core", "Numeric Shims"]
         ),
 
-        // MARK: - Relaxed
-        // Carved out of Real Primitives so that `public import Numeric_Shims` no longer
-        // leaks through Real Primitives' interface. Consumers that need
-        // Numeric.Relaxed opt in explicitly via this product.
         .target(
             name: "Numeric Relaxed Primitives",
             dependencies: ["Numeric Primitives Core", "Numeric Shims"]
         ),
 
-        // MARK: - Integer
         .target(
             name: "Integer Primitives",
             dependencies: ["Numeric Primitives Core"]
         ),
 
-        // MARK: - Umbrella
         .target(
             name: "Numeric Primitives",
             dependencies: [
@@ -99,7 +91,6 @@ let package = Package(
             ]
         ),
 
-        // MARK: - Test Support
         .target(
             name: "Numeric Primitives Test Support",
             dependencies: [

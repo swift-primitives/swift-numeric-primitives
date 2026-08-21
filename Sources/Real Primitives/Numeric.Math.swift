@@ -1,19 +1,5 @@
-// ===----------------------------------------------------------------------===//
-//
-// This source file is part of the swift-primitives open source project
-//
-// Copyright (c) 2024-2025 Coen ten Thije Boonkkamp and the swift-primitives
-// project authors
-// Licensed under Apache License v2.0
-//
-// See LICENSE for license information
-//
-// ===----------------------------------------------------------------------===//
-
 public import Numeric_Primitives_Core
 import Numeric_Shims
-
-// MARK: - Float
 
 extension Numeric.Math {
     @usableFromInline
@@ -84,11 +70,11 @@ extension Numeric.Math {
 
     @usableFromInline
     internal static func root(_ x: Float, _ n: Int) -> Float {
-        // Negative x with even n has no real root
+
         guard x >= 0 || n % 2 != 0 else { return .nan }
-        // Use cbrt for n == 3 for better accuracy
+
         if n == 3 { return shim_cbrtf(x) }
-        // General case: sign(x) * |x|^(1/n)
+
         return Float(signOf: x, magnitudeOf: shim_powf(x.magnitude, 1 / Float(n)))
     }
 
@@ -107,8 +93,6 @@ extension Numeric.Math {
     @usableFromInline
     internal static func tgamma(_ x: Float) -> Float { shim_tgammaf(x) }
 }
-
-// MARK: - Double
 
 extension Numeric.Math {
     @usableFromInline
@@ -179,11 +163,11 @@ extension Numeric.Math {
 
     @usableFromInline
     internal static func root(_ x: Double, _ n: Int) -> Double {
-        // Negative x with even n has no real root
+
         guard x >= 0 || n % 2 != 0 else { return .nan }
-        // Use cbrt for n == 3 for better accuracy
+
         if n == 3 { return shim_cbrt(x) }
-        // General case: sign(x) * |x|^(1/n)
+
         return Double(signOf: x, magnitudeOf: shim_pow(x.magnitude, 1 / Double(n)))
     }
 
@@ -203,9 +187,6 @@ extension Numeric.Math {
     internal static func tgamma(_ x: Double) -> Double { shim_tgamma(x) }
 }
 
-// MARK: - Float16
-
-// WHY: Float16 libm shims (shim_expf etc.) resolve only on the listed platform/arch combinations; the extension cannot compile where Float16 hardware math is absent.
 #if os(iOS) || os(tvOS) || os(watchOS) || os(visionOS) || ((os(macOS) || targetEnvironment(macCatalyst)) && arch(arm64))
     extension Numeric.Math {
         @usableFromInline

@@ -1,10 +1,6 @@
-// GCD.Tests.swift
-
 import Testing
 
 @testable import Integer_Primitives
-
-// MARK: - Test Suite Declaration (Parallel Namespace per [TEST-004])
 
 @Suite("Numeric.Integer.gcd")
 struct NumericIntegerGCDTests {
@@ -13,8 +9,6 @@ struct NumericIntegerGCDTests {
     @Suite struct Integration {}
     @Suite(.serialized) struct Performance {}
 }
-
-// MARK: - Unit Tests
 
 extension NumericIntegerGCDTests.Unit {
     @Test
@@ -47,8 +41,6 @@ extension NumericIntegerGCDTests.Unit {
         #expect(Numeric.Integer.lcm(12, 18) == 36)
     }
 }
-
-// MARK: - Edge Case Tests
 
 extension NumericIntegerGCDTests.EdgeCase {
     @Test
